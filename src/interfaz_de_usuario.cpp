@@ -1,5 +1,5 @@
 // Definiciones de las funciones de calculadora.h
-#include "funciones.h"
+#include "interfaz_de_usuario.h"
 #include <cstdlib>
 #include <ctime>
 #include <string>
@@ -57,15 +57,6 @@ int opcion_seleccionada () {
     return opcion;
 }
 
-int dado_de_6_cada() {
-    return rand() % 6 + 1;
-}
-
-int tirar_dados_objetivo() {
-    int dado1 = rand() % 12 + 1;
-    return dado1;
-}
-
 void enter() {
     cout << "Enter para el lanzamiento del dado..."<<endl;
     cin.get();
@@ -92,11 +83,7 @@ void intercambiar_si_es_necesario(int &dado1, int &dado2, string &nombre1, strin
     }
 }
 
-void simular_tiradas_dado_6(int stock[12]) {
-    for (int i = 0; i < 6; ++i) {
-        stock[i] = dado_de_6_cada();
-    }
-}
+
 
 void mostrar_dado(int numero) {
     cout << "+-------+" << endl;

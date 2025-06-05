@@ -2,7 +2,8 @@
 #include <string>
 #include <ctime>
 #include <cstdlib>
-#include "funciones.h"
+#include "interfaz_de_usuario.h"
+#include "dados.h"
 using namespace std;
 
 
@@ -10,6 +11,10 @@ using namespace std;
 
 int main() {
     srand(time(nullptr));
+
+    const int DADOS_STOCK_CARAS = 6;    
+    const int DADOS_OBJETIVO_CARAS = 12;
+
     /// Nombre de los jugadores.
     string nombre_1, nombre_2;
 
@@ -39,14 +44,14 @@ int main() {
             cout << "Primero lanza " << nombre_1 << ":"<<endl;
             enter();
             esperar_1_segundos();
-            dado_jugador1 = dado_de_6_cada();
+            dado_jugador1 = tirar_dado(DADOS_STOCK_CARAS);
             mostrar_dado(dado_jugador1);
 
             // Turno del segundo jugador en lanzar el dado.
             cout << "Ahora tu turno " << nombre_2 << "."<<endl;
             enter();
             esperar_1_segundos();
-            dado_jugador2 = dado_de_6_cada();
+            dado_jugador2 = tirar_dado(DADOS_STOCK_CARAS);
             mostrar_dado(dado_jugador2);
 
             // Esta funcion anuncia al jugador que empieza la partida.
@@ -59,14 +64,14 @@ int main() {
         // Aca se generan 6 valores al azar y se guardan en un vector de 12 elementos.
         // Le puse 12 elementos al vector para que tambien pueda almacenar los dados que le dara el oponente.
         int v_dado_de_6_cara_jugador1[12]{};
-        simular_tiradas_dado_6(v_dado_de_6_cara_jugador1);
+        tirar_dados(v_dado_de_6_cara_jugador1, 12, DADOS_STOCK_CARAS);
 
         // A esta parte le falta completar
         for (int i=1; i<=3; i++) {
             esperar_1_segundos();
             cout << "Ronda " << i << endl;
-            int dado_1_objetivo_jugador1 = tirar_dados_objetivo();
-            int dado_2_objetivo_jugador1 = tirar_dados_objetivo();
+            int dado_1_objetivo_jugador1 = tirar_dado(DADOS_OBJETIVO_CARAS);
+            int dado_2_objetivo_jugador1 = tirar_dado(DADOS_OBJETIVO_CARAS);
             int objetivo = dado_1_objetivo_jugador1 + dado_2_objetivo_jugador1;
             esperar_1_segundos();
             mostrar_dados_12(dado_1_objetivo_jugador1, dado_2_objetivo_jugador1);

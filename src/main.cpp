@@ -12,14 +12,27 @@ using namespace std;
 int main() {
     srand(time(nullptr));
 
-    const int DADOS_STOCK_CARAS = 6;    
-    const int DADOS_OBJETIVO_CARAS = 12;
+    const int CANT_CARAS_DADO_STOCK = 6;    
+    const int CANT_DADOS_STOCK = 6;
 
-    /// Nombre de los jugadores.
-    string nombre_1, nombre_2;
+    const int CANT_CARAS_DADO_OBJETIVO = 12;
+    const int CANT_DADOS_OBJETIVO = 2;
 
-    /// Dados de 6 cara para ver quien empieza.
-    int dado_jugador1, dado_jugador2;
+    const int TRANSFERIR_DADOS = 6;
+
+    const int CANTIDAD_JUGADORES = 2;
+
+    const int MAXIMA_CANTIDAD_DADOS_JUGADOR = CANT_DADOS_STOCK + TRANSFERIR_DADOS;
+
+    int dados_stock_jugador_1[MAXIMA_CANTIDAD_DADOS_JUGADOR] = {0};
+    int dados_stock_jugador_2[MAXIMA_CANTIDAD_DADOS_JUGADOR] = {0};
+    
+    
+
+    string nombres_jugadores[CANTIDAD_JUGADORES];
+
+    int dado_stock_jugadores[CANTIDAD_JUGADORES] = {0};
+    
 
     // Mostrando el nombre del juego
     portada();
@@ -31,58 +44,46 @@ int main() {
     if (opcion_seleccionada()==1) {
         cin.ignore();
 
-        // Ingreso de los nombres de los jugadores.
-        cout << "Nombre del jugador 1: ";
-        getline(cin, nombre_1);
-        cout << "Nombre del jugador 2: ";
-        getline(cin, nombre_2);
+        for (int jugador = 0; jugador < CANTIDAD_JUGADORES; jugador++) {
+            cout << "Nombre del jugador " << jugador + 1 << ": ";
+            getline(cin, nombres_jugadores[jugador]);
+        }
 
         cout << "Tendran que lanzar un dado cada uno para ver quien empieza la ronda. El que obtenga el dado mas alto comienza."<<endl;
 
         do {
-            // El que ingreso primero su nombre sera el primero en lanzar el dado para saber quién empieza la partida.
-            cout << "Primero lanza " << nombre_1 << ":"<<endl;
-            enter();
-            esperar_1_segundos();
-            dado_jugador1 = tirar_dado(DADOS_STOCK_CARAS);
-            mostrar_dado(dado_jugador1);
 
-            // Turno del segundo jugador en lanzar el dado.
-            cout << "Ahora tu turno " << nombre_2 << "."<<endl;
-            enter();
-            esperar_1_segundos();
-            dado_jugador2 = tirar_dado(DADOS_STOCK_CARAS);
-            mostrar_dado(dado_jugador2);
+            for (int jugador = 0; jugador < CANTIDAD_JUGADORES; jugador++) {
+                // El que ingreso primero su nombre sera el primero en lanzar el dado para saber quién empieza la partida.
+                cout << "Es el turno de " << nombres_jugadores[jugador] << ":"<<endl;
+                enter();
+                esperar_1_segundos();
+                dado_stock_jugadores[jugador] = tirar_dado(CANT_CARAS_DADO_STOCK);
+                mostrar_dado(dado_stock_jugadores[jugador]);                
+            }
 
             // Esta funcion anuncia al jugador que empieza la partida.
-            anuncio_Jugador(dado_jugador1, dado_jugador2, nombre_1, nombre_2);
-        }while (dado_jugador1 == dado_jugador2);
+            anuncio_Jugador(dado_stock_jugadores[0], dado_stock_jugadores[1], nombres_jugadores[0], nombres_jugadores[1]);
+        }while (dado_stock_jugadores[0] == dado_stock_jugadores[1]);
 
         // Esta funcion intercambia los nombres de los jugadores para que el Jugador 1 sea siempre quien comience la partida.
-        intercambiar_si_es_necesario(dado_jugador1, dado_jugador2, nombre_1, nombre_2);
+        intercambiar_si_es_necesario(dado_stock_jugadores[0], dado_stock_jugadores[1], nombres_jugadores[0], nombres_jugadores[1]);
 
-        // Aca se generan 6 valores al azar y se guardan en un vector de 12 elementos.
-        // Le puse 12 elementos al vector para que tambien pueda almacenar los dados que le dara el oponente.
-        int v_dado_de_6_cara_jugador1[12]{};
-        tirar_dados(v_dado_de_6_cara_jugador1, 12, DADOS_STOCK_CARAS);
+        for (int ronda=1; ronda<=3; ronda++) {
+            for (int jugador = 0; jugador < CANTIDAD_JUGADORES; jugador++) {             
+                esperar_1_segundos();
+                cout << "Ronda " << ronda << endl;
+                cout << "Turno de " << nombres_jugadores[jugador] << "." << endl;
+                
+                int dado_1_objetivo_jugador1 = tirar_dado(CANT_CARAS_DADO_OBJETIVO);
+                int dado_2_objetivo_jugador1 = tirar_dado(CANT_CARAS_DADO_OBJETIVO);
+                int objetivo = dado_1_objetivo_jugador1 + dado_2_objetivo_jugador1;
 
-        // A esta parte le falta completar
-        for (int i=1; i<=3; i++) {
-            esperar_1_segundos();
-            cout << "Ronda " << i << endl;
-            int dado_1_objetivo_jugador1 = tirar_dado(DADOS_OBJETIVO_CARAS);
-            int dado_2_objetivo_jugador1 = tirar_dado(DADOS_OBJETIVO_CARAS);
-            int objetivo = dado_1_objetivo_jugador1 + dado_2_objetivo_jugador1;
-            esperar_1_segundos();
-            mostrar_dados_12(dado_1_objetivo_jugador1, dado_2_objetivo_jugador1);
-            cout << "Dados stock.[ " ;
-            for(int f=0; f<12; f++){
-                if(v_dado_de_6_cara_jugador1[f]>0){
-                    cout << v_dado_de_6_cara_jugador1[f] << " ";
-                }
+                esperar_1_segundos();
+                mostrar_dados_12(dado_1_objetivo_jugador1, dado_2_objetivo_jugador1);
+        
+                cout << "El objetivo de " << nombres_jugadores[jugador] << " es: " << objetivo << endl;
             }
-            cout <<"]"<< endl;
-
         }
     }
 

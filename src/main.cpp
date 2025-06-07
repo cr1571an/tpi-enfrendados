@@ -86,8 +86,15 @@ int main() {
                 cout << "El objetivo de " << nombres_jugadores[jugador] << " es: " << objetivo << endl;
 
                 int dados [cant_dados_stock[jugador]]= {0};
+                int dados_seleccionados [cant_dados_stock[jugador]] = {0};
+
                 tirar_dados(dados, cant_dados_stock[jugador], CANT_CARAS_DADO_STOCK);
                 mostrar_dados(dados, cant_dados_stock[jugador]);
+                enter();
+                seleccionar_dados(dados, dados_seleccionados,cant_dados_stock[jugador]);
+                enter();
+                limpiar_pantalla();
+                mostrar_dados(dados_seleccionados, cant_dados_stock[jugador]);
                 enter();
             }
         }

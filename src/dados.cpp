@@ -25,3 +25,21 @@ void seleccionar_dados(int dados[], int dados_seleccionados[], int cantidad){
         cin >> seleccionado;
     }
 }
+
+int sumar_dados(int dados[], int cantidad) {
+    int suma = 0;
+    for (int i = 0; i < cantidad; ++i) {
+        suma += dados[i];
+    }
+    return suma;
+}
+
+int contador_dados(int dados[], int tamanio) {
+    int contador = 0;
+    for (int i = 0; i < tamanio; ++i) {
+        if (dados[i] != 0) {
+            contador++;
+        }
+    }
+    return contador;    
+}

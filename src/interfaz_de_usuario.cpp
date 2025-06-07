@@ -1,4 +1,3 @@
-// Definiciones de las funciones de calculadora.h
 #include "interfaz_de_usuario.h"
 #include <cstdlib>
 #include <ctime>
@@ -57,8 +56,14 @@ int opcion_seleccionada () {
     return opcion;
 }
 
+
 void enter() {
     cout << "Enter para el lanzamiento del dado..."<<endl;
+    cin.get();
+}
+
+void continuar() {
+    cout << "Enter para continuar..."<<endl;
     cin.get();
 }
 
@@ -140,8 +145,6 @@ void mostrar_dados_12(int dado1, int dado2) {
     cout << "|    " << dado1 << "    |   |    " << dado2 << "    |" << endl;
     cout << "|         |   |         |" << endl;
     cout << "+---------+   +---------+" << endl;
-
-    cout << "El objetivo es alcanzar un total de "<<dado1+dado2<<"."<<endl;
 }
 
 void limpiar_pantalla(){

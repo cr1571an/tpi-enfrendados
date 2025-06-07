@@ -31,4 +31,6 @@ void limpiar_pantalla();
 
 void mostrar_dados(int dadoss[], int caras);
 
+void continuar();
+
 #endif //FUNCIONES_H

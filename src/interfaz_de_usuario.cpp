@@ -132,3 +132,17 @@ void mostrar_dados_12(int dado1, int dado2) {
 
     cout << "El objetivo es alcanzar un total de "<<dado1+dado2<<"."<<endl;
 }
+
+void limpiar_pantalla(){
+#ifdef _WIN32
+    system("cls");
+#else
+    system("clear");
+#endif
+}
+
+void mostrar_dados(int dadoss[], int cantidad) {
+    for (int i = 0; i < cantidad; ++i) {
+        mostrar_dado(dadoss[i]);
+    }
+}

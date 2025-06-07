@@ -27,4 +27,8 @@ void mostrar_dados_12(int dado1, int dado2);
 //Esta funcion muestra una representacion un dado segun el numero. Entre 1 y 6.
 void mostrar_dado(int numero);
 
+void limpiar_pantalla();
+
+void mostrar_dados(int dadoss[], int caras);
+
 #endif //FUNCIONES_H

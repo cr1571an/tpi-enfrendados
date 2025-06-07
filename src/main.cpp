@@ -4,6 +4,8 @@
 #include <cstdlib>
 #include "interfaz_de_usuario.h"
 #include "dados.h"
+#include "puntaje.h"
+
 using namespace std;
 
 
@@ -31,6 +33,7 @@ int main() {
     string nombres_jugadores[CANTIDAD_JUGADORES];
 
     int dado_stock_jugadores[CANTIDAD_JUGADORES] = {0};
+    int puntajes_jugadores[CANTIDAD_JUGADORES] = {0};
     
     limpiar_pantalla();
     // Mostrando el nombre del juego
@@ -68,7 +71,7 @@ int main() {
         // Esta funcion intercambia los nombres de los jugadores para que el Jugador 1 sea siempre quien comience la partida.
         intercambiar_si_es_necesario(dado_stock_jugadores[0], dado_stock_jugadores[1], nombres_jugadores[0], nombres_jugadores[1]);
         
-        enter();//TO DO: ACA HAY QUE PRECIONAR ENTER PARA CONTINUAR. MEJORAR MENSAJE???
+        continuar();
         limpiar_pantalla();
 
         for (int ronda=1; ronda<=3; ronda++) {
@@ -90,12 +93,46 @@ int main() {
 
                 tirar_dados(dados, cant_dados_stock[jugador], CANT_CARAS_DADO_STOCK);
                 mostrar_dados(dados, cant_dados_stock[jugador]);
-                enter();
+                continuar();
                 seleccionar_dados(dados, dados_seleccionados,cant_dados_stock[jugador]);
-                enter();
+                continuar();
                 limpiar_pantalla();
                 mostrar_dados(dados_seleccionados, cant_dados_stock[jugador]);
-                enter();
+                continuar();
+                int suma_dados_seleccionados = sumar_dados(dados_seleccionados, cant_dados_stock[jugador]);
+                int cantidad_dados_seleccionados = contador_dados(dados_seleccionados, cant_dados_stock[jugador]);
+
+                cout << "La suma de los dados seleccionados es: " << suma_dados_seleccionados << " y la cantidad de dados seleccionados es: " << cantidad_dados_seleccionados <<endl;
+                
+                if (suma_dados_seleccionados == objetivo && cantidad_dados_seleccionados == cant_dados_stock[jugador]) {
+                    cout << nombres_jugadores[jugador] << " Felicidades! Cumpliste el objetivo de la ronda y ademas ganaste el juego. =)"<<endl;
+                    puntajes_jugadores[jugador] += calcular_puntaje(suma_dados_seleccionados, cantidad_dados_seleccionados);
+                    puntajes_jugadores[jugador] += 10000;
+                    cout << "Tienes ahora " << puntajes_jugadores[jugador] << " puntos."<<endl;
+
+                    continuar();
+                    limpiar_pantalla();
+                    break;
+                } else if (suma_dados_seleccionados == objetivo) {
+                    cout << nombres_jugadores[jugador] << " Felicidades! Cumpliste el objetivo de la ronda."<<endl;
+                    puntajes_jugadores[jugador] += calcular_puntaje(suma_dados_seleccionados, cantidad_dados_seleccionados);
+                    transferir_dados(jugador, cant_dados_stock, cantidad_dados_seleccionados);
+                    cout << "Tienes ahora " << cant_dados_stock[jugador] << " dados de stock."<<endl;
+                    cout << "Tienes ahora " << puntajes_jugadores[jugador] << " puntos."<<endl;
+
+                    continuar();
+                    limpiar_pantalla();
+                }
+                else {
+                    cout << nombres_jugadores[jugador] << " Lo siento, no cumpliste el objetivo de la ronda."<<endl;
+                    cout << "Se te penaliza agregandote un dado de stock."<<endl;
+                    penalizar_jugador(jugador, cant_dados_stock);                    
+                    cout << "Tienes ahora " << cant_dados_stock[jugador] << " dados de stock."<<endl;
+                    
+                    continuar();
+                    limpiar_pantalla();
+                }
+
             }
         }
     }

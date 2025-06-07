@@ -12,8 +12,9 @@ using namespace std;
 int main() {
     srand(time(nullptr));
 
+    
     const int CANT_CARAS_DADO_STOCK = 6;    
-    const int CANT_DADOS_STOCK = 6;
+    const int CANT_DADOS_STOCK_INICIAL = 6;
 
     const int CANT_CARAS_DADO_OBJETIVO = 12;
     const int CANT_DADOS_OBJETIVO = 2;
@@ -22,18 +23,16 @@ int main() {
 
     const int CANTIDAD_JUGADORES = 2;
 
-    const int MAXIMA_CANTIDAD_DADOS_JUGADOR = CANT_DADOS_STOCK + TRANSFERIR_DADOS;
+    const int MAXIMA_CANTIDAD_DADOS_JUGADOR = CANT_DADOS_STOCK_INICIAL + TRANSFERIR_DADOS;
 
-    int dados_stock_jugador_1[MAXIMA_CANTIDAD_DADOS_JUGADOR] = {0};
-    int dados_stock_jugador_2[MAXIMA_CANTIDAD_DADOS_JUGADOR] = {0};
     
-    
+    int cant_dados_stock[CANTIDAD_JUGADORES] = {CANT_DADOS_STOCK_INICIAL, CANT_DADOS_STOCK_INICIAL};    
 
     string nombres_jugadores[CANTIDAD_JUGADORES];
 
     int dado_stock_jugadores[CANTIDAD_JUGADORES] = {0};
     
-
+    limpiar_pantalla();
     // Mostrando el nombre del juego
     portada();
 
@@ -68,6 +67,9 @@ int main() {
 
         // Esta funcion intercambia los nombres de los jugadores para que el Jugador 1 sea siempre quien comience la partida.
         intercambiar_si_es_necesario(dado_stock_jugadores[0], dado_stock_jugadores[1], nombres_jugadores[0], nombres_jugadores[1]);
+        
+        enter();//TO DO: ACA HAY QUE PRECIONAR ENTER PARA CONTINUAR. MEJORAR MENSAJE???
+        limpiar_pantalla();
 
         for (int ronda=1; ronda<=3; ronda++) {
             for (int jugador = 0; jugador < CANTIDAD_JUGADORES; jugador++) {             
@@ -80,9 +82,13 @@ int main() {
                 int objetivo = dado_1_objetivo_jugador1 + dado_2_objetivo_jugador1;
 
                 esperar_1_segundos();
-                mostrar_dados_12(dado_1_objetivo_jugador1, dado_2_objetivo_jugador1);
-        
+                mostrar_dados_12(dado_1_objetivo_jugador1, dado_2_objetivo_jugador1);        
                 cout << "El objetivo de " << nombres_jugadores[jugador] << " es: " << objetivo << endl;
+
+                int dados [cant_dados_stock[jugador]]= {0};
+                tirar_dados(dados, cant_dados_stock[jugador], CANT_CARAS_DADO_STOCK);
+                mostrar_dados(dados, cant_dados_stock[jugador]);
+                enter();
             }
         }
     }

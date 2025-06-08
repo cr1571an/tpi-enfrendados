@@ -34,6 +34,8 @@ int main() {
 
     int dado_stock_jugadores[CANTIDAD_JUGADORES] = {0};
     int puntajes_jugadores[CANTIDAD_JUGADORES] = {0};
+
+    bool seguir_jugando = true;
     
     limpiar_pantalla();
     // Mostrando el nombre del juego
@@ -109,6 +111,7 @@ int main() {
                     puntajes_jugadores[jugador] += calcular_puntaje(suma_dados_seleccionados, cantidad_dados_seleccionados);
                     puntajes_jugadores[jugador] += 10000;
                     cout << "Tienes ahora " << puntajes_jugadores[jugador] << " puntos."<<endl;
+                    seguir_jugando = false;
 
                     continuar();
                     limpiar_pantalla();
@@ -132,7 +135,9 @@ int main() {
                     continuar();
                     limpiar_pantalla();
                 }
-
+            }
+            if (!seguir_jugando){
+                break;
             }
         }
     }

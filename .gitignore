@@ -44,3 +44,4 @@ build/
 # CLion
 .idea/
 cmake-build-*/
+CMakeLists.txt

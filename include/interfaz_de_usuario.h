@@ -13,7 +13,6 @@ void portada();
 void menu();
 //La función pide y valida una opción del menú entre 0 y 3, y devuelve la opción seleccionada.
 int opcion_seleccionada();
-
 // Esta funcion muestra un mensaje al usuario que tiene que presionar Enter para continuar.
 void enter();
 // Esta funcion pausa la ejecucion durante 1 segundo.
@@ -26,6 +25,8 @@ void intercambiar_si_es_necesario(int &dado1, int &dado2, string &nombre1, strin
 void mostrar_dados_12(int dado1, int dado2);
 //Esta funcion muestra una representacion un dado segun el numero. Entre 1 y 6.
 void mostrar_dado(int numero);
+
+void mostrar_dados_horizontal(int dados[], int cantidad);
 
 void limpiar_pantalla();
 

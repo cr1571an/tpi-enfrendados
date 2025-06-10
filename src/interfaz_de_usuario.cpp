@@ -160,3 +160,43 @@ void mostrar_dados(int dadoss[], int cantidad) {
         mostrar_dado(dadoss[i]);
     }
 }
+
+
+void mostrar_dados_horizontal(int v[], int elemento) {
+            int cantidad=0;
+            /// filtro para evitar que alla cero en el vector
+            for (int i = 0; i < elemento; ++i) {
+                if (v[i] > 0) {
+                    cantidad++;
+                }
+            }
+            elemento=cantidad;
+            // Línea 1: parte superior
+            for (int i = 0; i < elemento; ++i) cout << "+-------+  ";
+            cout << endl;
+            // Línea 2
+            for (int i = 0; i < elemento; ++i) {
+                if (v[i] == 1 ) cout << "|       |  ";
+                else if ( v[i] == 2 || v[i] == 3) cout << "| *     |  ";
+                else if ( v[i] == 4 || v[i] == 5 || v[i] == 6) cout << "| *   * |  ";
+            }
+            cout << endl;
+            // Línea 3
+            for (int i = 0; i < elemento; ++i) {
+                if (v[i] == 1) cout << "|   *   |  ";
+                else if ( v[i] == 2 || v[i] == 4) cout << "|       |  ";
+                else if (v[i] == 3 || v[i] == 5) cout << "|   *   |  ";
+                else if ( v[i] == 6) cout << "| *   * |  ";
+            }
+            cout << endl;
+            // Línea 4
+            for (int i = 0; i < elemento; ++i) {
+                if (v[i] == 1 ) cout << "|       |  ";
+                else if ( v[i] == 2 || v[i] == 3) cout << "|     * |  ";
+                else if (v[i] == 4 || v[i] == 5 || v[i] == 6) cout << "| *   * |  ";
+            }
+            cout << endl;
+            // Línea 5: parte inferior
+            for (int i = 0; i < elemento; ++i) cout << "+-------+  ";
+            cout << endl;
+        }

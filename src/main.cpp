@@ -5,16 +5,11 @@
 #include "interfaz_de_usuario.h"
 #include "dados.h"
 #include "puntaje.h"
-
 using namespace std;
-
-
-
 
 int main() {
     srand(time(nullptr));
 
-    
     const int CANT_CARAS_DADO_STOCK = 6;    
     const int CANT_DADOS_STOCK_INICIAL = 6;
 
@@ -27,7 +22,6 @@ int main() {
 
     const int MAXIMA_CANTIDAD_DADOS_JUGADOR = CANT_DADOS_STOCK_INICIAL + TRANSFERIR_DADOS;
 
-    
     int cant_dados_stock[CANTIDAD_JUGADORES] = {CANT_DADOS_STOCK_INICIAL, CANT_DADOS_STOCK_INICIAL};    
 
     string nombres_jugadores[CANTIDAD_JUGADORES];
@@ -37,7 +31,6 @@ int main() {
 
     bool seguir_jugando = true;
     
-    limpiar_pantalla();
     // Mostrando el nombre del juego
     portada();
 
@@ -56,14 +49,13 @@ int main() {
         cout << "Tendran que lanzar un dado cada uno para ver quien empieza la ronda. El que obtenga el dado mas alto comienza."<<endl;
 
         do {
-
             for (int jugador = 0; jugador < CANTIDAD_JUGADORES; jugador++) {
                 // El que ingreso primero su nombre sera el primero en lanzar el dado para saber quién empieza la partida.
                 cout << "Es el turno de " << nombres_jugadores[jugador] << ":"<<endl;
                 enter();
                 esperar_1_segundos();
                 dado_stock_jugadores[jugador] = tirar_dado(CANT_CARAS_DADO_STOCK);
-                mostrar_dado(dado_stock_jugadores[jugador]);                
+                mostrar_dado(dado_stock_jugadores[jugador]);
             }
 
             // Esta funcion anuncia al jugador que empieza la partida.
@@ -74,7 +66,6 @@ int main() {
         intercambiar_si_es_necesario(dado_stock_jugadores[0], dado_stock_jugadores[1], nombres_jugadores[0], nombres_jugadores[1]);
         
         continuar();
-        limpiar_pantalla();
 
         for (int ronda=1; ronda<=3; ronda++) {
             for (int jugador = 0; jugador < CANTIDAD_JUGADORES; jugador++) {             
@@ -94,12 +85,13 @@ int main() {
                 int dados_seleccionados [cant_dados_stock[jugador]] = {0};
 
                 tirar_dados(dados, cant_dados_stock[jugador], CANT_CARAS_DADO_STOCK);
-                mostrar_dados(dados, cant_dados_stock[jugador]);
+                mostrar_dados_horizontal(dados,cant_dados_stock[jugador]);
+
                 continuar();
                 seleccionar_dados(dados, dados_seleccionados,cant_dados_stock[jugador]);
                 continuar();
-                limpiar_pantalla();
-                mostrar_dados(dados_seleccionados, cant_dados_stock[jugador]);
+
+                mostrar_dados_horizontal(dados_seleccionados,cant_dados_stock[jugador]);
                 continuar();
                 int suma_dados_seleccionados = sumar_dados(dados_seleccionados, cant_dados_stock[jugador]);
                 int cantidad_dados_seleccionados = contador_dados(dados_seleccionados, cant_dados_stock[jugador]);
@@ -114,8 +106,8 @@ int main() {
                     seguir_jugando = false;
 
                     continuar();
-                    limpiar_pantalla();
                     break;
+
                 } else if (suma_dados_seleccionados == objetivo) {
                     cout << nombres_jugadores[jugador] << " Felicidades! Cumpliste el objetivo de la ronda."<<endl;
                     puntajes_jugadores[jugador] += calcular_puntaje(suma_dados_seleccionados, cantidad_dados_seleccionados);
@@ -124,7 +116,6 @@ int main() {
                     cout << "Tienes ahora " << puntajes_jugadores[jugador] << " puntos."<<endl;
 
                     continuar();
-                    limpiar_pantalla();
                 }
                 else {
                     cout << nombres_jugadores[jugador] << " Lo siento, no cumpliste el objetivo de la ronda."<<endl;
@@ -133,7 +124,6 @@ int main() {
                     cout << "Tienes ahora " << cant_dados_stock[jugador] << " dados de stock."<<endl;
                     
                     continuar();
-                    limpiar_pantalla();
                 }
             }
             if (!seguir_jugando){
@@ -141,6 +131,6 @@ int main() {
             }
         }
     }
-
+    
     return 0;
 }

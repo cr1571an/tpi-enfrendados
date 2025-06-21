@@ -35,18 +35,6 @@ void menu_principal() {
     )";
 }
 
-void menu_juego() {
-    cout << R"(
-    ╔══════════════════════════════════════════════╗
-    ║                MENU JUEGO                    ║
-    ╠══════════════════════════════════════════════╣
-    ║           1 - JUGAR 1 VS 1                   ║
-    ║           2 - JUGAR VS COMPUTADORA           ║
-    ╠══════════════════════════════════════════════╣
-    ║           0 - VOLVER AL MENU                 ║
-    ╚══════════════════════════════════════════════╝
-    )";
-}
 
 
 int opcion_seleccionada () {
@@ -95,12 +83,12 @@ void esperar_1_segundos() {
 
 void mensaje_inicio_juego() {
     cout << R"(
-       ╔═══════════════════════════════════════════════════════╗
-       ║            ¡HORA DE DECIDIR QUIEN EMPIEZA!            ║
-    ╔══╝═══════════════════════════════════════════════════════╚═╗
-    ║        CADA JUGADOR LANZARA UN DADO Y EL QUE OBTENGA       ║
-    ║   EL DADO MAS ALTO SERA EL PRIMERO EN EMPEZAR LA PARTIDA.  ║
-    ╠════════════════════════════════════════════════════════════╝
+       ╔═════════════════════════════════════════════════════════════════════╗
+       ║                  ¡HORA DE DECIDIR QUIEN EMPIEZA!                    ║
+    ╔══╝═════════════════════════════════════════════════════════════════════╚═╗
+    ║        CADA JUGADOR LANZARA UN DADO DE SEIS CARAS Y EL QUE OBTENGA       ║
+    ║          EL DADO MAS ALTO SERA EL PRIMERO EN EMPEZAR LA PARTIDA.         ║
+    ╠══════════════════════════════════════════════════════════════════════════╝
     ║ ENTER PARA CONTINUAR....║
     ╚═════════════════════════╝)";enter();
 }
@@ -136,7 +124,6 @@ void mensaje_empate() {
 
 
 void mensaje_para_las_rondas(int ronda, string nombres_jugadores[], int jugador ) {
-
     int ancho=44;
     cout << "      ╔═══════════════════════════════════════╗"<<endl;
     cout << "      ║                RONDA "<< ronda <<"                ║"<<endl;
@@ -148,10 +135,10 @@ void mensaje_para_las_rondas(int ronda, string nombres_jugadores[], int jugador 
 }
 
 
-void mensaje_dados_stock() {
-    cout << "   ╔═══════════════════════════════════════════╗"<<endl;
-    cout << "   ║      ESTOS SON TUS DADOS DISPONIBLES      ║"<<endl;
-    cout << "   ╠═══════════════════════════════════════════╝"<<endl;
+void mensaje_dados_stock(int dodos_stock[], int jugador) {
+    cout << "   ╔═══════════════════════════════════════════════════════════╗"<<endl;
+    cout << "   ║" << centrar("TENES "+ to_string(dodos_stock[jugador]) + " DODOS DISPONIBLES EN TU STOCK", 59) << "║"<<endl;
+    cout << "   ╠═══════════════════════════════════════════════════════════╝"<<endl;
     cout << "   ║ ENTER! PARA LANZAR LOS DODOS...║"<<endl;
     cout << "   ╚════════════════════════════════╝";enter();
 }
@@ -164,13 +151,14 @@ void mensaje_dados_seleccionados() {
     cout << "╚══════════════════════════════════════════╝"<<endl;
 }
 
-void mensaje_gano_la_partida(string nombres_jugadores[], int jugador) {
-
-    cout << "      ╔═══════════════════════════════════════╗"<<endl;
-    cout << "      ║" << centrar(nombres_jugadores[jugador], 39) << "║"<<endl;
-    cout << "   ╔══╝═══════════════════════════════════════╚═╗"<<endl;
-    cout << "   ║     FELICIDADES! HAS GANADO LA PARTIDA     ║"<<endl;
-    cout << "   ╠════════════════════════════════════════════╝"<<endl;
+void mensaje_gano_la_partida(int puntaje, int suma) {
+    int ancho = 63;
+    cout << "      ╔═════════════════════════════════════════════════════════╗"<<endl;
+    cout << "      ║            FELICIDADES! HAS GANADO LA PARTIDA           ║"<<endl;
+    cout << "   ╔══╝═════════════════════════════════════════════════════════╚═╗"<<endl;
+    cout << "   ║" << centrar("PUNTAJE OBTENIDO FUE DE: "+to_string(puntaje), ancho) << "║"<<endl;
+    cout << "   ║" << centrar("LA SUMA DE LOS DADOS FUE: " + to_string(suma), ancho) << "║"<<endl;
+    cout << "   ╠══════════════════════════════════════════════════════════════╝"<<endl;
     cout << "   ║ ENTER PARA CONTINUAR...║"<<endl;
     cout << "   ╚════════════════════════╝";enter();
     cout <<endl;
@@ -263,106 +251,113 @@ void limpiar_pantalla(){
 }
 
 
-void mostrar_dados_horizontal(int v[], int cantidad_elementos) {
-    // Contar dados válidos
+void mostrar_dados_horizontal(int v[], int dodos_stock, int cant_dados) {
     int indices_validos[11];
     int cantidad_validos = 0;
 
-    // Validadando las posiciones
-    for (int i = 0; i < cantidad_elementos; ++i) {
-        if (v[i] > 0) {
-            indices_validos[cantidad_validos++] = i;
+    if (cant_dados == 0) {
+        cout <<"╔═══════╗"<<endl;
+        cout <<"║   N   ║"<<endl;
+        cout <<"║   A   ║"<<endl;
+        cout <<"║   N   ║"<<endl;
+        cout <<"╚═══════╝"<<endl;
+    }
+    else{
+        for (int i = 0; i < dodos_stock; ++i) {
+            if (v[i] > 0) {
+                indices_validos[cantidad_validos++] = i;
+            }
         }
+
+        for (int i = 0; i < cantidad_validos; ++i)
+            cout << "╔═══════╗  ";
+        cout << endl;
+
+        for (int i = 0; i < cantidad_validos; ++i) {
+            int d = v[indices_validos[i]];
+            if (d == 1) cout << "║       ║  ";
+            else if (d == 2 || d == 3) cout << "║ *     ║  ";
+            else if (d >= 4 && d <= 6) cout << "║ *   * ║  ";
+        }
+        cout << endl;
+
+        for (int i = 0; i < cantidad_validos; ++i) {
+            int d = v[indices_validos[i]];
+            if (d == 1 || d == 3 || d == 5) cout << "║   *   ║  ";
+            else if (d == 2 || d == 4) cout << "║       ║  ";
+            else if (d == 6) cout << "║ *   * ║  ";
+        }
+        cout << endl;
+
+        for (int i = 0; i < cantidad_validos; ++i) {
+            int d = v[indices_validos[i]];
+            if (d == 1) cout << "║       ║  ";
+            else if (d == 2 || d == 3) cout << "║     * ║  ";
+            else if (d >= 4 && d <= 6) cout << "║ *   * ║  ";
+        }
+        cout << endl;
+
+        for (int i = 0; i < cantidad_validos; ++i)
+            cout << "╚═══════╝  ";
+        cout << endl;
+
+        for (int i = 0; i < cantidad_validos; ++i)
+            cout << "  [ " << indices_validos[i] + 1 << " ]    ";
+        cout << endl;
     }
-
-    // La línea de arriba
-    for (int i = 0; i < cantidad_validos; ++i)
-        cout << "╔═══════╗  ";
-    cout << endl;
-
-    // Línea uno
-    for (int i = 0; i < cantidad_validos; ++i) {
-        int d = v[indices_validos[i]];
-        if (d == 1) cout << "║       ║  ";
-        else if (d == 2 || d == 3) cout << "║ *     ║  ";
-        else if (d >= 4 && d <= 6) cout << "║ *   * ║  ";
-    }
-    cout << endl;
-
-    // Línea dos
-    for (int i = 0; i < cantidad_validos; ++i) {
-        int d = v[indices_validos[i]];
-        if (d == 1 || d == 3 || d == 5) cout << "║   *   ║  ";
-        else if (d == 2 || d == 4) cout << "║       ║  ";
-        else if (d == 6) cout << "║ *   * ║  ";
-    }
-    cout << endl;
-
-    // Línea tres
-    for (int i = 0; i < cantidad_validos; ++i) {
-        int d = v[indices_validos[i]];
-        if (d == 1) cout << "║       ║  ";
-        else if (d == 2 || d == 3) cout << "║     * ║  ";
-        else if (d >= 4 && d <= 6) cout << "║ *   * ║  ";
-    }
-    cout << endl;
-
-    // La ultima línea
-    for (int i = 0; i < cantidad_validos; ++i)
-        cout << "╚═══════╝  ";
-    cout << endl;
-
-    // Muestra la posicin
-    for (int i = 0; i < cantidad_validos; ++i)
-        cout << "  [ " << indices_validos[i] + 1 << " ]    ";
-    cout << endl;
 }
 
 
-void mensaje_objetivo_cumplido(string nombres[], int jugador, int stock[], int usados, int suma) {
+void mensaje_objetivo_cumplido(string nombres[], int jugador, int stock[], int usados, int suma, int puntaje) {
     int oponente = jugador ^ 1;
-    const int ancho = 56;
-
+    const int ancho = 74;
     cout << endl;
-    cout << "   ╔════════════════════════════════════════════════════════╗"<<endl;
+    cout << "   ╔══════════════════════════════════════════════════════════════════════════╗"<<endl;
     cout << "   ║" << centrar("FELICIDADES! CUMPLISTE EL OBJETIVO", ancho) << "║"<<endl;
-    cout << "   ╠════════════════════════════════════════════════════════╣"<<endl;
+    cout << "   ╠══════════════════════════════════════════════════════════════════════════╣"<<endl;
+    cout << "   ║" << centrar("PUNTAJE OBTENIDO FUE DE: "+to_string(puntaje), ancho) << "║"<<endl;
     cout << "   ║" << centrar("LA SUMA DE LOS DADOS FUE: " + to_string(suma), ancho) << "║"<<endl;
     cout << "   ║" << centrar("DADOS UTILIZADOS: " + to_string(usados), ancho) << "║"<<endl;
     cout << "   ║" << centrar("DADOS QUE QUEDARON EN TU STOCK: " + to_string(stock[jugador]), ancho) << "║"<<endl;
-    cout << "   ╠════════════════════════════════════════════════════════╣"<<endl;
+    cout << "   ╠══════════════════════════════════════════════════════════════════════════╣"<<endl;
     cout << "   ║" << centrar("LE TRANSFERISTE " + to_string(usados) + " DADOS A " + nombres[oponente], ancho) << "║"<<endl;
-    cout << "   ╠════════════════════════════════════════════════════════╝"<<endl;
+    cout << "   ╠══════════════════════════════════════════════════════════════════════════╝"<<endl;
     cout << "   ║ ENTER PARA CONTINUAR....║"<<endl;
     cout << "   ╚═════════════════════════╝";enter();
     cout <<endl;
 }
 
 
-void mensaje_objetivo_no_cumplido( int cant_dados_stock[], int jugador,  int ronda, string nombre_jugador[]) {
-    const int ancho = 56;
+
+void mensaje_objetivo_no_cumplido( int cant_dados_stock[], int jugador,  int ronda, string nombre_jugador[], int suma) {
+    const int ancho = 74;
     int oponente = jugador ^ 1;
 
     if (ronda < 3) {
         cout << endl;
-        cout << "   ╔════════════════════════════════════════════════════════╗"<<endl;
+        cout << "   ╔══════════════════════════════════════════════════════════════════════════╗"<<endl;
         cout << "   ║" << centrar("LO SIENTO, NO CUMPLISTE EL OBJETIVO", ancho) << "║"<<endl;
-        cout << "   ╠════════════════════════════════════════════════════════╣"<<endl;
+        cout << "   ╠══════════════════════════════════════════════════════════════════════════╣"<<endl;
+        cout << "   ║" << centrar("PUNTAJE OBTENIDO FUE DE: O", ancho) << "║"<<endl;
+        cout << "   ║" << centrar("LA SUMA DE LOS DADOS FUE: " + to_string(suma), ancho) << "║"<<endl;
         cout << "   ║" << centrar(" SE TE PENALIZADA AGREGANDON UN DADO MAS A TU STOCK ", ancho) << "║"<<endl;
         cout << "   ║" << centrar(" AHORA TENDRA EN TU STOCK " + to_string(cant_dados_stock[jugador]) + " DADOS", ancho) << "║"<<endl;
-        cout << "   ╠════════════════════════════════════════════════════════╝"<<endl;
+        cout << "   ╠══════════════════════════════════════════════════════════════════════════╝"<<endl;
         cout << "   ║ ENTER PARA CONTINUAR...║"<<endl;
         cout << "   ╚════════════════════════╝";enter();
         cout <<endl;
     }
     else {
         cout << endl;
-        cout << "   ╔════════════════════════════════════════════════════════╗"<<endl;
+        cout << "   ╔══════════════════════════════════════════════════════════════════════════╗"<<endl;
         cout << "   ║" << centrar("LO SIENTO, NO CUMPLISTE EL OBJETIVO", ancho) << "║"<<endl;
+        cout << "   ╠══════════════════════════════════════════════════════════════════════════╣"<<endl;
+        cout << "   ║" << centrar("PUNTAJE OBTENIDO FUE DE: O", ancho) << "║"<<endl;
+        cout << "   ║" << centrar("LA SUMA DE LOS DADOS FUE: " + to_string(suma), ancho) << "║"<<endl;
         cout << "   ║" << centrar("SE LE QUITARA UN DADO DEL STOCK A " + nombre_jugador[oponente], ancho) << "║"<<endl;
         cout << "   ║" << centrar("POR SER LA ULTIMA RONDA DE LA PARTIDA Y", ancho) << "║"<<endl;
         cout << "   ║" << centrar("NO HABER CUMPLIDO EL OBJETIVO", ancho) << "║"<<endl;
-        cout << "   ╠════════════════════════════════════════════════════════╝"<<endl;
+        cout << "   ╠══════════════════════════════════════════════════════════════════════════╝"<<endl;
         cout << "   ║ ENTER PARA CONTINUAR...║"<<endl;
         cout << "   ╚════════════════════════╝";enter();
         cout <<endl;
@@ -370,10 +365,13 @@ void mensaje_objetivo_no_cumplido( int cant_dados_stock[], int jugador,  int ron
 }
 
 
-void mensaje_objetivo_no_cumplido_mas_stock_max( int cant_dados_stock[], int jugador,  int ronda, string nombre_jugador[]) {
+void mensaje_objetivo_no_cumplido_mas_stock_max( int cant_dados_stock[], int jugador,  int ronda, string nombre_jugador[], int suma) {
         cout << endl;
         cout << "   ╔══════════════════════════════════════════════════════════════════════════╗"<<endl;
         cout << "   ║" << centrar("LO SIENTO, NO CUMPLISTE EL OBJETIVO", 74) << "║"<<endl;
+        cout << "   ╠══════════════════════════════════════════════════════════════════════════╣"<<endl;
+        cout << "   ║" << centrar("PUNTAJE OBTENIDO FUE DE: O", 74) << "║"<<endl;
+        cout << "   ║" << centrar("LA SUMA DE LOS DADOS FUE: " + to_string(suma), 74) << "║"<<endl;
         cout << "   ║" << centrar("TE QUEDARA CON LA MISMA CANTIDAD DE DADOS EN EL STOCK", 74) << "║"<<endl;
         cout << "   ║" << centrar("POR QUE NO SE TE PUEDE PENALIZAR " + nombre_jugador[jugador], 74) << "║"<<endl;
         cout << "   ╠══════════════════════════════════════════════════════════════════════════╝"<<endl;

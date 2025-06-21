@@ -84,29 +84,31 @@ int main() {
 
                 mostrar_dados_12(dados_objetivo[0], dados_objetivo[1]);
 
-                int dados [cant_dados_stock[jugador]] {0};
+                int dados_stock [cant_dados_stock[jugador]] {0};
                 int dados_seleccionados [cant_dados_stock[jugador]] {0};
 
-                tirar_dados(dados, cant_dados_stock[jugador], CANT_CARAS_DADO_STOCK);
+                tirar_dados(dados_stock, cant_dados_stock[jugador], CANT_CARAS_DADO_STOCK);
                 esperar_1_segundos();
-                mensaje_dados_stock();
-                mostrar_dados_horizontal(dados,cant_dados_stock[jugador]);
 
-                seleccionar_dados(dados, dados_seleccionados,cant_dados_stock[jugador]);
+                mensaje_dados_stock(cant_dados_stock, jugador);
+                mostrar_dados_horizontal(dados_stock,cant_dados_stock[jugador],1);
+
+                seleccionar_dados(dados_stock, dados_seleccionados,cant_dados_stock[jugador]);
+
+                int cantidad_dados_seleccionados = contador_dados(dados_seleccionados, cant_dados_stock[jugador]);
+                int suma_dados_seleccionados = sumar_dados(dados_seleccionados, cant_dados_stock[jugador]);
+
                 mensaje_dados_seleccionados();
-                mostrar_dados_horizontal(dados_seleccionados,cant_dados_stock[jugador]);
+                mostrar_dados_horizontal(dados_seleccionados,cant_dados_stock[jugador], cantidad_dados_seleccionados);
                 cin.get();
 
-                int suma_dados_seleccionados = sumar_dados(dados_seleccionados, cant_dados_stock[jugador]);
-                int cantidad_dados_seleccionados = contador_dados(dados_seleccionados, cant_dados_stock[jugador]);
-
                 if (cantidad_dados_seleccionados == cant_dados_stock[jugador] && suma_dados_seleccionados == objetivo) {
-
-                    mensaje_gano_la_partida(nombres_jugadores, jugador);
 
                     puntaje = calcular_puntaje(suma_dados_seleccionados, cantidad_dados_seleccionados)+10000;
 
                     puntaje_acumulado_por_jugadores[jugador]+= puntaje;
+
+                    mensaje_gano_la_partida(puntaje,dado_stock_jugadores[jugador]);
 
                     guardar_puntaje_por_ronda(jugador, ronda, puntaje, puntajes_por_rondas_jugadores, nombres_jugadores);
 
@@ -118,22 +120,15 @@ int main() {
 
                     transferir_dados(jugador, cant_dados_stock, cantidad_dados_seleccionados);
 
-                    mensaje_objetivo_cumplido(nombres_jugadores, jugador, cant_dados_stock, cantidad_dados_seleccionados, suma_dados_seleccionados);
+                    mensaje_objetivo_cumplido(nombres_jugadores, jugador, cant_dados_stock, cantidad_dados_seleccionados, suma_dados_seleccionados, puntaje);
 
                     puntaje_acumulado_por_jugadores[jugador]+= puntaje;
 
                     guardar_puntaje_por_ronda(jugador, ronda, puntaje, puntajes_por_rondas_jugadores, nombres_jugadores);
                 }
                 else {
-                    int oponente =  jugador ^ 1;
-                    if (cant_dados_stock[oponente]>1) {
-                        cant_dados_stock[oponente]--;
-                        cant_dados_stock[jugador]++;
-                        mensaje_objetivo_no_cumplido( cant_dados_stock, jugador, ronda, nombres_jugadores);
-                    }
-                    else {
-                    mensaje_objetivo_no_cumplido_mas_stock_max(cant_dados_stock, jugador, ronda, nombres_jugadores);
-                    }
+
+                    penalizar_jugador(jugador, cant_dados_stock, ronda, nombres_jugadores, suma_dados_seleccionados);
 
                     guardar_puntaje_por_ronda(jugador, ronda, 0, puntajes_por_rondas_jugadores, nombres_jugadores);
                 }

@@ -35,35 +35,6 @@ void menu_principal() {
     )";
 }
 
-
-
-int opcion_seleccionada () {
-    int  opcion;
-    do {
-        cout << " Ingresar opcion: ";
-        cin >> opcion;
-
-        switch (opcion) {
-            case 0:
-                return 0;
-                break;
-            case 1:
-                return 1;
-                break;
-            case 2:
-                return 2;
-                break;
-            case 3:
-                return 3;
-                break;
-            default:
-                cout << "Debes elegir una opcion del menu." << endl;
-        }
-    }while(opcion != 0);
-    return opcion;
-}
-
-
 void enter() {
     cout << " ";
     cin.get();

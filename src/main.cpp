@@ -8,39 +8,20 @@
 #include "estadistica.h"
 using namespace std;
 
-int main() {
-    srand(time(nullptr));
+void jugar(int cantidad_jugadores, int cant_ronda, int cant_dados_objetivo, int cant_dados_stock_inicial, int cant_caras_dado_stock, int cant_caras_dado_objetivo) {
+    cin.ignore();
 
-    const int CANTIDAD_JUGADORES = 2;
+        string nombres_jugadores[cantidad_jugadores];
 
-    const int CANT_CARAS_DADO_STOCK = 6;
-    const int CANT_DADOS_STOCK_INICIAL = 6;
+        int dados_objetivo[cant_dados_objetivo]{};
 
-    const int CANT_CARAS_DADO_OBJETIVO = 12;
-    const int CANT_DADOS_OBJETIVO = 2;
+        int dado_stock_jugadores[cantidad_jugadores] {0};
 
-    const int CANT_RONDA = 3;
+        int puntaje_acumulado_por_jugadores[cantidad_jugadores] {0};
 
-    portada();
+        int puntajes_por_rondas_jugadores[cantidad_jugadores*cant_ronda] {0};
 
-    menu_principal();
-
-    int opcion = opcion_seleccionada();
-
-    if (opcion==1) {
-        cin.ignore();
-
-        string nombres_jugadores[CANTIDAD_JUGADORES];
-
-        int dados_objetivo[CANT_DADOS_OBJETIVO]{};
-
-        int dado_stock_jugadores[CANTIDAD_JUGADORES] {0};
-
-        int puntaje_acumulado_por_jugadores[CANTIDAD_JUGADORES] {0};
-
-        int puntajes_por_rondas_jugadores[CANTIDAD_JUGADORES*CANT_RONDA] {0};
-
-        int cant_dados_stock[CANTIDAD_JUGADORES] = {CANT_DADOS_STOCK_INICIAL, CANT_DADOS_STOCK_INICIAL};
+        int cant_dados_stock[cantidad_jugadores] = {cant_dados_stock_inicial, cant_dados_stock_inicial};
 
         int objetivo=0;
 
@@ -48,7 +29,7 @@ int main() {
 
         int puntaje=0;
 
-        for (int jugador = 0; jugador < CANTIDAD_JUGADORES; jugador++) {
+        for (int jugador = 0; jugador < cantidad_jugadores; jugador++) {
             cout << "Nombre del jugador " << jugador + 1 << ": ";
             getline(cin, nombres_jugadores[jugador]);
         }
@@ -56,11 +37,11 @@ int main() {
         mensaje_inicio_juego();
 
         do {
-            for (int jugador = 0; jugador < CANTIDAD_JUGADORES; jugador++) {
+            for (int jugador = 0; jugador < cantidad_jugadores; jugador++) {
                 cout << endl;
                 mensaje_para_tirar_dado_6_cara(nombres_jugadores, jugador);
                 esperar_1_segundos();
-                dado_stock_jugadores[jugador] = tirar_dado(CANT_CARAS_DADO_STOCK);
+                dado_stock_jugadores[jugador] = tirar_dado(cant_caras_dado_stock);
                 mostrar_solo_un_dado(dado_stock_jugadores[jugador]);
             }
 
@@ -71,14 +52,14 @@ int main() {
             }
         }while (dado_stock_jugadores[0] == dado_stock_jugadores[1]);
 
-        for (int ronda=1; ronda<=CANT_RONDA; ronda++) {
+        for (int ronda=1; ronda<=cant_ronda; ronda++) {
 
-            for (int jugador = 0; jugador < CANTIDAD_JUGADORES; jugador++) {
+            for (int jugador = 0; jugador < cantidad_jugadores; jugador++) {
                 esperar_1_segundos();
 
                 mensaje_para_las_rondas(ronda, nombres_jugadores, jugador);
 
-                tirar_dados(dados_objetivo, CANT_DADOS_OBJETIVO, CANT_CARAS_DADO_OBJETIVO);
+                tirar_dados(dados_objetivo, cant_dados_objetivo, cant_caras_dado_objetivo);
                 objetivo = dados_objetivo[0] + dados_objetivo[1];
                 esperar_1_segundos();
 
@@ -87,7 +68,7 @@ int main() {
                 int dados_stock [cant_dados_stock[jugador]] {0};
                 int dados_seleccionados [cant_dados_stock[jugador]] {0};
 
-                tirar_dados(dados_stock, cant_dados_stock[jugador], CANT_CARAS_DADO_STOCK);
+                tirar_dados(dados_stock, cant_dados_stock[jugador], cant_caras_dado_stock);
                 esperar_1_segundos();
 
                 mensaje_dados_stock(cant_dados_stock, jugador);
@@ -137,10 +118,65 @@ int main() {
                 break;
             }
         }
-         mostrar_estadistica(puntajes_por_rondas_jugadores, nombres_jugadores, CANT_RONDA, puntaje_acumulado_por_jugadores);
-    }
-    if (opcion==0) {
-        exit(0);
-    }
+        mostrar_estadistica(puntajes_por_rondas_jugadores, nombres_jugadores, cant_ronda, puntaje_acumulado_por_jugadores);
+
+}
+
+void estadisticas(){
+    cout << "\n>>> Estadísticas del juego no implementadas aún.\n";
+    cout << "Preciona enter para volver al menu principal.\n";
+    enter();
+}
+
+void creditos() {
+    cout << "\n>>> Créditos del juego:\n";
+    cout << "Gracias por jugar!\n";
+    cout << "Preciona enter para volver al menu principal.\n";
+    enter();
+}
+
+int main() {
+    srand(time(nullptr));
+
+    const int CANTIDAD_JUGADORES = 2;
+
+    const int CANT_CARAS_DADO_STOCK = 6;
+    const int CANT_DADOS_STOCK_INICIAL = 6;
+
+    const int CANT_CARAS_DADO_OBJETIVO = 12;
+    const int CANT_DADOS_OBJETIVO = 2;
+
+    const int CANT_RONDA = 3;
+
+    portada();
+
+    int opcion; 
+
+    do
+    {
+        menu_principal();
+
+        cout << " Ingresar opcion: ";
+        cin >> opcion;
+
+        switch (opcion) {
+            case 1:                
+                jugar(CANTIDAD_JUGADORES, CANT_RONDA, CANT_DADOS_OBJETIVO, CANT_DADOS_STOCK_INICIAL, CANT_CARAS_DADO_STOCK, CANT_CARAS_DADO_OBJETIVO);
+                break;
+            case 2:
+                estadisticas();
+                break;
+            case 3:
+                creditos();
+                break;
+            case 0:
+                cout << "\n>>> Saliendo del juego...\n";
+                break;
+            default:
+                cout << "\n>>> Opción no válida.\n";
+                break;
+        }
+    } while (opcion != 0);  
+
     return 0;
 }

@@ -40,8 +40,8 @@ void mostrar_estadistica(int puntajes_por_rondas_jugadores[], string nombres_jug
         cout << "   ║" << centrar(nombres_jugadores[0] + " OBTUVO UN TOTAL DE " + to_string(puntaje_acumulado_por_jugadores[0]), ancho) << "║" << endl;
         cout << "   ║" << centrar(nombres_jugadores[1] + " OBTUVO UN TOTAL DE " + to_string(puntaje_acumulado_por_jugadores[1]), ancho) << "║" << endl;
         cout << "   ╠════════════════════════════════════════════════════════╣" << endl;
-        cout << "   ║" << centrar("PRESIONE ENTER PARA CONTINUAR...", ancho) << "║" << endl;
+        cout << "   ║" << centrar("PRESIONE ENTER PARA VOLVER AL MENU PRINCIPAL", ancho) << "║" << endl;
         cout << "   ╚════════════════════════════════════════════════════════╝" << endl;
-        enter(); // Asegúrate de tener esta función definida
+        enter();
     }
 }

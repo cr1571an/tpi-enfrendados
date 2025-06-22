@@ -21,10 +21,12 @@ Todas las modificaciones importantes del proyecto se documentan en este archivo.
   - Validar que solo sea posible penalizar al jugar cuando el oponenete tiene mas de un dado.
   - Validar que el dado elegido se encuentre en el rango permitido.
   - Se agrega resultados de puntajes al final de una partida.
+**Rama `feature/navegar-menu-juego-estadisticas`**:
+  - Navegar en el menu principal. Permitiendo jugar, ver estadisticas y creditos sin salir del juego. Solo con 0 se sale del juego.
+
 
 ### Pendiente
-- Refactorizar la lógica de juego en `main` para modularizar y mejorar la estructura del código.
-- Implementar un sistema de estadísticas del juego.
-- Ajustar el comportamiento del `Menú Principal` para que solo cierre el juego cuando el usuario lo indique, y permitir la navegación entre distintas opciones del menú sin salir.
 - Limpieza de pantalla compatible con Windows y Linux.
+- Almacenar en memoria las estadiscticas parciales de cada partida. Implementar menu Estadisticas.
+- Implementar Menu Creditos. 
 

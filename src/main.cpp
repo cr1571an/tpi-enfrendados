@@ -72,7 +72,7 @@ void jugar(int cantidad_jugadores, int cant_ronda, int cant_dados_objetivo, int 
                 esperar_1_segundos();
 
                 mensaje_dados_stock(cant_dados_stock, jugador);
-                mostrar_dados_horizontal(dados_stock,cant_dados_stock[jugador],1);
+                mostrar_dados_horizontal(dados_stock,cant_dados_stock[jugador], true);
 
                 seleccionar_dados(dados_stock, dados_seleccionados,cant_dados_stock[jugador]);
 
@@ -80,7 +80,7 @@ void jugar(int cantidad_jugadores, int cant_ronda, int cant_dados_objetivo, int 
                 int suma_dados_seleccionados = sumar_dados(dados_seleccionados, cant_dados_stock[jugador]);
 
                 mensaje_dados_seleccionados();
-                mostrar_dados_horizontal(dados_seleccionados,cant_dados_stock[jugador], cantidad_dados_seleccionados);
+                mostrar_dados_horizontal(dados_seleccionados, cantidad_dados_seleccionados, false);
                 cin.get();
 
                 if (cantidad_dados_seleccionados == cant_dados_stock[jugador] && suma_dados_seleccionados == objetivo) {
@@ -118,7 +118,8 @@ void jugar(int cantidad_jugadores, int cant_ronda, int cant_dados_objetivo, int 
                 break;
             }
         }
-        mostrar_estadistica(puntajes_por_rondas_jugadores, nombres_jugadores, cant_ronda, puntaje_acumulado_por_jugadores);
+        anunciar_ganador_o_empate(puntaje_acumulado_por_jugadores, nombres_jugadores);
+        mostrar_resumen(puntajes_por_rondas_jugadores, nombres_jugadores, cant_ronda, puntaje_acumulado_por_jugadores);
 
 }
 
@@ -128,12 +129,7 @@ void estadisticas(){
     enter();
 }
 
-void creditos() {
-    cout << "\n>>> Créditos del juego:\n";
-    cout << "Gracias por jugar!\n";
-    cout << "Preciona enter para volver al menu principal.\n";
-    enter();
-}
+
 
 int main() {
     srand(time(nullptr));
@@ -167,7 +163,8 @@ int main() {
                 estadisticas();
                 break;
             case 3:
-                creditos();
+                credito();
+                enter();
                 break;
             case 0:
                 cout << "\n>>> Saliendo del juego...\n";

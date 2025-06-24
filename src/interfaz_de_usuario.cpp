@@ -41,11 +41,6 @@ void enter() {
 }
 
 
-void continuar() {
-    cout << "Enter para continuar..."<<endl;
-    cin.get();
-}
-
 
 void esperar_1_segundos() {
     this_thread::sleep_for(chrono::seconds(1));
@@ -122,27 +117,6 @@ void mensaje_dados_seleccionados() {
     cout << "╚══════════════════════════════════════════╝"<<endl;
 }
 
-void mensaje_gano_la_partida(int puntaje, int suma) {
-    int ancho = 63;
-    cout << "      ╔═════════════════════════════════════════════════════════╗"<<endl;
-    cout << "      ║            FELICIDADES! HAS GANADO LA PARTIDA           ║"<<endl;
-    cout << "   ╔══╝═════════════════════════════════════════════════════════╚═╗"<<endl;
-    cout << "   ║" << centrar("PUNTAJE OBTENIDO FUE DE: "+to_string(puntaje), ancho) << "║"<<endl;
-    cout << "   ║" << centrar("LA SUMA DE LOS DADOS FUE: " + to_string(suma), ancho) << "║"<<endl;
-    cout << "   ╠══════════════════════════════════════════════════════════════╝"<<endl;
-    cout << "   ║ ENTER PARA CONTINUAR...║"<<endl;
-    cout << "   ╚════════════════════════╝";enter();
-    cout <<endl;
-}
-
-
-string repete_n_veces_el_caracter(string caracter, int cantidad) {
-    string resultado;
-    for (int i = 0; i < cantidad; ++i) {
-        resultado += caracter;
-    }
-    return resultado;
-}
 
 
 void intercambiar_si_es_necesario(int &dado1, int &dado2, string &nombre1, string &nombre2) {
@@ -222,60 +196,68 @@ void limpiar_pantalla(){
 }
 
 
-void mostrar_dados_horizontal(int v[], int dados_stock, int cant_dados) {
-    int indices_validos[11];
-    int cantidad_validos = 0;
+void mostrar_dados_horizontal(int dados_stock[], int cant_dados_stock, bool mostra_posicion) {
 
-    if (cant_dados == 0) {
+    if (cant_dados_stock == 0) {
         cout <<"╔═══════╗"<<endl;
         cout <<"║   N   ║"<<endl;
         cout <<"║   A   ║"<<endl;
         cout <<"║   N   ║"<<endl;
         cout <<"╚═══════╝"<<endl;
-    }
-    else{
-        for (int i = 0; i < dados_stock; ++i) {
-            if (v[i] > 0) {
-                indices_validos[cantidad_validos++] = i;
-            }
-        }
+    } else {
 
-        for (int i = 0; i < cantidad_validos; ++i)
+        for (int i = 0; i < cant_dados_stock; ++i)
             cout << "╔═══════╗  ";
         cout << endl;
 
-        for (int i = 0; i < cantidad_validos; ++i) {
-            int d = v[indices_validos[i]];
+        for (int i = 0; i < cant_dados_stock; ++i) {
+            int d = dados_stock[i];
             if (d == 1) cout << "║       ║  ";
             else if (d == 2 || d == 3) cout << "║ *     ║  ";
             else if (d >= 4 && d <= 6) cout << "║ *   * ║  ";
         }
         cout << endl;
 
-        for (int i = 0; i < cantidad_validos; ++i) {
-            int d = v[indices_validos[i]];
+        for (int i = 0; i < cant_dados_stock; ++i) {
+            int d = dados_stock[i];
             if (d == 1 || d == 3 || d == 5) cout << "║   *   ║  ";
             else if (d == 2 || d == 4) cout << "║       ║  ";
             else if (d == 6) cout << "║ *   * ║  ";
         }
         cout << endl;
 
-        for (int i = 0; i < cantidad_validos; ++i) {
-            int d = v[indices_validos[i]];
+        for (int i = 0; i < cant_dados_stock; ++i) {
+            int d = dados_stock[i];
             if (d == 1) cout << "║       ║  ";
             else if (d == 2 || d == 3) cout << "║     * ║  ";
             else if (d >= 4 && d <= 6) cout << "║ *   * ║  ";
         }
         cout << endl;
 
-        for (int i = 0; i < cantidad_validos; ++i)
+        for (int i = 0; i < cant_dados_stock; ++i)
             cout << "╚═══════╝  ";
         cout << endl;
 
-        for (int i = 0; i < cantidad_validos; ++i)
-            cout << "  [ " << indices_validos[i] + 1 << " ]    ";
-        cout << endl;
+        if (mostra_posicion) {
+            for (int i = 0; i < cant_dados_stock; ++i)
+                cout << "  [ " << i + 1 << " ]    ";
+            cout << endl;
+        }
     }
+}
+
+
+void mensaje_gano_la_partida(int puntaje, int suma) {
+    int ancho = 63;
+    cout << "      ╔═════════════════════════════════════════════════════════╗"<<endl;
+    cout << "      ║            FELICIDADES! HAS GANADO LA PARTIDA           ║"<<endl;
+    cout << "   ╔══╝═════════════════════════════════════════════════════════╚═╗"<<endl;
+    cout << "   ║" << centrar("PUNTAJE OBTENIDO FUE DE: "+to_string(puntaje)+ " PTS", ancho) << "║"<<endl;
+    cout << "   ║" << centrar("LA SUMA DE LOS DADOS FUE: " + to_string(suma), ancho) << "║"<<endl;
+    cout << "   ╠══════════════════════════════════════════════════════════════╝"<<endl;
+    cout << "   ║ ENTER PARA CONTINUAR...║"<<endl;
+    cout << "   ╚════════════════════════╝";enter();
+    cout <<endl;
 }
 
 
@@ -286,7 +268,7 @@ void mensaje_objetivo_cumplido(string nombres[], int jugador, int stock[], int u
     cout << "   ╔══════════════════════════════════════════════════════════════════════════╗"<<endl;
     cout << "   ║" << centrar("FELICIDADES! CUMPLISTE EL OBJETIVO", ancho) << "║"<<endl;
     cout << "   ╠══════════════════════════════════════════════════════════════════════════╣"<<endl;
-    cout << "   ║" << centrar("TU PUNTAJE OBTENIDO FUE DE: "+to_string(puntaje), ancho) << "║"<<endl;
+    cout << "   ║" << centrar("TU PUNTAJE OBTENIDO FUE DE: "+to_string(puntaje)+" PTS", ancho) << "║"<<endl;
     cout << "   ║" << centrar("LA SUMA DE LOS DADOS FUE: " + to_string(suma), ancho) << "║"<<endl;
     cout << "   ║" << centrar("DADOS UTILIZADOS: " + to_string(usados), ancho) << "║"<<endl;
     cout << "   ║" << centrar("DADOS QUE QUEDARON EN TU STOCK: " + to_string(stock[jugador]), ancho) << "║"<<endl;
@@ -306,7 +288,7 @@ void mensaje_objetivo_no_cumplido( int cant_dados_stock[], int jugador,  int ron
     cout << "   ╔══════════════════════════════════════════════════════════════════════════╗"<<endl;
     cout << "   ║" << centrar("LO SIENTO, NO CUMPLISTE EL OBJETIVO", ancho) << "║"<<endl;
     cout << "   ╠══════════════════════════════════════════════════════════════════════════╣"<<endl;
-    cout << "   ║" << centrar("TU PUNTAJE OBTENIDO FUE DE: O", ancho) << "║"<<endl;
+    cout << "   ║" << centrar("TU PUNTAJE OBTENIDO FUE DE: O PTS", ancho) << "║"<<endl;
     cout << "   ║" << centrar("LA SUMA DE LOS DADOS FUE: " + to_string(suma), ancho) << "║"<<endl;
     cout << "   ║" << centrar(" SE TE PENALIZARA AGREGANDO UN DADO MAS A TU STOCK ", ancho) << "║"<<endl;
     cout << "   ║" << centrar(" AHORA TENDRAS EN TU STOCK " + to_string(cant_dados_stock[jugador]) + " DADOS", ancho) << "║"<<endl;
@@ -324,7 +306,7 @@ void mensaje_objetivo_no_cumplido_mas_stock_max( int cant_dados_stock[], int jug
     cout << "   ╔══════════════════════════════════════════════════════════════════════════╗"<<endl;
     cout << "   ║" << centrar("LO SIENTO, NO CUMPLISTE EL OBJETIVO", ancho) << "║"<<endl;
     cout << "   ╠══════════════════════════════════════════════════════════════════════════╣"<<endl;
-    cout << "   ║" << centrar("PUNTAJE OBTENIDO FUE DE: O", ancho) << "║"<<endl;
+    cout << "   ║" << centrar("PUNTAJE OBTENIDO FUE DE: O PTS", ancho) << "║"<<endl;
     cout << "   ║" << centrar("LA SUMA DE LOS DADOS FUE: " + to_string(suma), ancho) << "║"<<endl;
     cout << "   ║" << centrar("TE QUEDARAS CON LA MISMA CANTIDAD DE DADOS EN EL STOCK", ancho) << "║"<<endl;
     cout << "   ║" << centrar("PORQUE " + nombre_jugador[oponente] +" TIENE UN SOLO DADO", ancho) << "║"<<endl;
@@ -334,3 +316,25 @@ void mensaje_objetivo_no_cumplido_mas_stock_max( int cant_dados_stock[], int jug
     cout <<endl;
 }
 
+
+
+void credito() {
+    cout << R"(
+                   ╔══════════════════════════════════════════════╗
+                   ║                  CREDITOS                    ║
+    ╔══════════════╝══════════════════════════════════════════════╚════════════╗
+    ║  JUEGO CREADO POR: ANGEL SIMON                                           ║
+    ║  LEVEMENTE INSPIRADO EN EL JUEGO: "MAFIA"                                ║
+    ╠══════════════════════════════════════════════════════════════════════════╣
+    ║  RECURSOS UTILIZADOS: ▪ ICONOS DE FREEPIK                                ║
+    ║                       ▪ LOGOTIPO DISEÑADO EN LOGO MAKER                  ║
+    ╠══════════════════════════════════════════════════════════════════════════╣
+    ║           EQUIPO DE DESARROLLO - "LOS DEL CODIGO SIN GARANTIAS"          ║
+    ╠══════════════════════════════════════════════════════════════════════════╣
+    ║    ▪ ULISES SERGIO MARTÍN AGUIRRE – LEGAJO: 32529                        ║
+    ║    ▪ CRISTIAN NICOLÁS SÁNCHEZ     – LEGAJO: 32283                        ║
+    ╠══════════════════════════════════════════════════════════════════════════╝
+    ║ ENTER PARA VOLVER AL MENU PRINCIPAL...║
+    ╚═══════════════════════════════════════╝)";enter();
+
+}

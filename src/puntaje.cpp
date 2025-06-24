@@ -4,7 +4,11 @@
 using namespace std;
 
 void penalizar_jugador(int jugador, int cant_dados_stock[], int ronda, string nombres_jugadores[], int suma) {
-    int oponente =  jugador ^ 1;
+    int oponente;
+    if (jugador == 0)
+        oponente = 1;
+    else
+        oponente = 0;
     if (cant_dados_stock[oponente]>1) {
         cant_dados_stock[oponente]--;
         cant_dados_stock[jugador]++;

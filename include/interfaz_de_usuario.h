@@ -41,10 +41,12 @@ void mostrar_dados_12(int dado1, int dado2);
 
 void mostrar_solo_un_dado(int numero);
 
-void mostrar_dados_horizontal(int v[], int dodos_stock, int cant_dados);
+void mostrar_dados_horizontal(int v[], int dodos_stock, bool mostra_posicion);
 
 void limpiar_pantalla();
 
 void mensaje_objetivo_no_cumplido_mas_stock_max( int cant_dados_stock[], int jugador,  int ronda, string nombre_jugador[], int suma);
+
+void credito();
 
 #endif

@@ -23,10 +23,7 @@ Todas las modificaciones importantes del proyecto se documentan en este archivo.
   - Se agrega resultados de puntajes al final de una partida.
 **Rama `feature/navegar-menu-juego-estadisticas`**:
   - Navegar en el menu principal. Permitiendo jugar, ver estadisticas y creditos sin salir del juego. Solo con 0 se sale del juego.
-
-
-### Pendiente
-- Limpieza de pantalla compatible con Windows y Linux.
-- Almacenar en memoria las estadiscticas parciales de cada partida. Implementar menu Estadisticas.
-- Implementar Menu Creditos. 
+**Rama `feature/menu-estadisticas`**:
+  - Se determina si hubo un ganador o un empate en la partida. Se muestra el resultado de la partida al finalizarla.
+  - Se implementa el menu estadiscticas, donde se muestra un rancking de 10 posiciones.
 

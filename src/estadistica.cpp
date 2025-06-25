@@ -8,10 +8,39 @@ void guardar_puntaje_por_ronda(int num_jugadores, int ronda, int puntaje, int pu
     puntajes_por_rondas_jugadores[indice] = puntaje;
 }
 
-void mostrar_resumen_partida(int puntajes_por_rondas_jugadores[], string nombres_jugadores[], int ronda, int puntaje_acumulado_por_jugadores[]) {
+
+void anunciar_ganador_o_empate(int puntaje_acumulado_por_jugadores[], string nombres_jugadores[]) {
+
+    if (puntaje_acumulado_por_jugadores[0] != puntaje_acumulado_por_jugadores[1]) {
+        int indice_ganador;
+        if (puntaje_acumulado_por_jugadores[0] > puntaje_acumulado_por_jugadores[1]) {
+            indice_ganador = 0;
+        } else {
+            indice_ganador = 1;
+        }
+        cout << "   ╔════════════════════════════════════════════════════════════════════════╗" << endl;
+        cout << "   ║" << centrar("¡FELICIDADES " + nombres_jugadores[indice_ganador] + ", GANASTE!", 73) << "║" << endl;
+        cout << "   ╠════════════════════════════════════════════════════════════════════════╝" << endl;
+        cout << "   ║ ENTER PARA VER EL RESUMEN DE LA PARTIDA  ║" << endl;
+        cout << "   ╚══════════════════════════════════════════╝";enter();
+        cout << endl;
+    } else {
+        cout << "   ╔════════════════════════════════════════════════════════════════════════╗" << endl;
+        cout << "   ║" << centrar("¡HUBO EMPATE TECNICO!", 73) << "║" << endl;
+        cout << "   ╠════════════════════════════════════════════════════════════════════════╝" << endl;
+        cout << "   ║ ENTER PARA VER EL RESUMEN DE LA PARTIDA  ║" << endl;
+        cout << "   ╚══════════════════════════════════════════╝" << endl;
+        enter();
+        cout << endl;
+    }
+}
+
+
+
+void mostrar_resumen(int puntajes_por_rondas_jugadores[], string nombres_jugadores[], int ronda, int puntaje_acumulado_por_jugadores[]) {
     int ancho = 56;
     cout << "   ╔════════════════════════════════════════════════════════╗" << endl;
-    cout << "   ║" << centrar("ESTADISTICA DE LA PARTIDA!", ancho) << "║" << endl;
+    cout << "   ║" << centrar("RESUMER DE LA PARTIDA!", ancho) << "║" << endl;
     cout << "   ╠════════════════════════════════════════════════════════╣" << endl;
     for (int i = 0; i < ronda; i++) {
         cout << "   ║" << centrar("RONDA " + to_string(i + 1), ancho) << "║" << endl;
@@ -26,8 +55,8 @@ void mostrar_resumen_partida(int puntajes_por_rondas_jugadores[], string nombres
         cout << "   ║" << centrar(nombres_jugadores[1] + " OBTUVO UN TOTAL DE " + to_string(puntaje_acumulado_por_jugadores[1]), ancho) << "║" << endl;
         cout << "   ╠════════════════════════════════════════════════════════╣" << endl;
         cout << "   ║" << centrar("PRESIONE ENTER PARA VOLVER AL MENU PRINCIPAL", ancho) << "║" << endl;
-        cout << "   ╚════════════════════════════════════════════════════════╝" << endl;
-        enter();
+        cout << "   ╚════════════════════════════════════════════════════════╝";enter();
+        cout <<endl;
     }
 }
 

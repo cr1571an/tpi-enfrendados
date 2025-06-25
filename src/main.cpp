@@ -8,7 +8,7 @@
 #include "estadistica.h"
 using namespace std;
 
-void jugar(int cantidad_jugadores, int cant_ronda, int cant_dados_objetivo, int cant_dados_stock_inicial, int cant_caras_dado_stock, int cant_caras_dado_objetivo, string ranking_jugadores[], int ranking_puntajes[]) {
+void jugar(int cantidad_jugadores, int cant_ronda, int cant_dados_objetivo, int cant_dados_stock_inicial, int cant_caras_dado_stock, int cant_caras_dado_objetivo, string ranking_jugadores[], int ranking_puntajes[], int longitud_ranking) {
     cin.ignore();
 
         string nombres_jugadores[cantidad_jugadores];
@@ -118,9 +118,11 @@ void jugar(int cantidad_jugadores, int cant_ronda, int cant_dados_objetivo, int 
                 break;
             }
         }
-        anunciar_ganador_o_empate(puntaje_acumulado_por_jugadores, nombres_jugadores);
-        mostrar_resumen(puntajes_por_rondas_jugadores, nombres_jugadores, cant_ronda, puntaje_acumulado_por_jugadores);
 
+        int resultado_final = obtener_resultado_final(puntaje_acumulado_por_jugadores);
+        anunciar_ganador_o_empate(resultado_final, nombres_jugadores);
+        mostrar_resumen(puntajes_por_rondas_jugadores, nombres_jugadores, cant_ronda, puntaje_acumulado_por_jugadores);
+        guardar_resultado(nombres_jugadores, puntaje_acumulado_por_jugadores, resultado_final,ranking_jugadores, ranking_puntajes, longitud_ranking);
 }
 
 void estadisticas(string jugadores[], int puntajes[]) {
@@ -144,8 +146,10 @@ int main() {
 
     const int CANT_RONDA = 3;
 
-    string jugadores [10] = {};
-    int puntajes [10] = {};
+    const int LONGITUD_RANKING = 10;
+
+    string ranking_jugadores [LONGITUD_RANKING] = {};
+    int ranking_puntajes [LONGITUD_RANKING] = {};
 
     portada();
 
@@ -160,10 +164,11 @@ int main() {
 
         switch (opcion) {
             case 1:                
-                jugar(CANTIDAD_JUGADORES, CANT_RONDA, CANT_DADOS_OBJETIVO, CANT_DADOS_STOCK_INICIAL, CANT_CARAS_DADO_STOCK, CANT_CARAS_DADO_OBJETIVO, jugadores, puntajes);
+                jugar(CANTIDAD_JUGADORES, CANT_RONDA, CANT_DADOS_OBJETIVO, CANT_DADOS_STOCK_INICIAL, CANT_CARAS_DADO_STOCK, CANT_CARAS_DADO_OBJETIVO, ranking_jugadores, ranking_puntajes, LONGITUD_RANKING);
                 break;
             case 2:
-                estadisticas(jugadores, puntajes);
+                mostrar_ranking(ranking_jugadores, ranking_puntajes, LONGITUD_RANKING);
+                enter();
                 break;
             case 3:
                 credito();

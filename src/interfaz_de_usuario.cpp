@@ -338,3 +338,30 @@ void credito() {
     ╚═══════════════════════════════════════╝)";enter();
 
 }
+
+void mostrar_ranking(string ranking_jugadores[], int ranking_puntajes[], int longitud_ranking) {
+
+    string ranking_jugadores_copia[longitud_ranking] = {"Jugador1", "Jugador2", "Jugador3", "Jugador4", "Jugador5", "Jugador6", "Jugador7", "Jugador8", "Jugador9", "Jugador10"};
+    int ranking_puntajes_copia[longitud_ranking] = {20,31,25,368,64,85,3698,123,31,35};
+    cout << "   ╔════════════════════════════════════════════════════════════════════════╗" << endl;
+    cout << "   ║" << centrar("🏆 RANKING DE JUGADORES 🏆", 73) << "║" << endl;
+    cout << "   ╠════════════════════════════════════════════════════════════════════════╣" << endl;
+    cout << "   ║  Pos │        Nombre        │   Puntaje                                ║" << endl;
+    cout << "   ╠══════╬══════════════════════╬══════════════════════════════════════════╣" << endl;
+
+    for (int i = 0; i < longitud_ranking; i++) {
+        if (ranking_jugadores_copia[i] != "") {
+            cout << "   ║  ";
+            if (i + 1 < 10) cout << " "; 
+            cout << i + 1 << "  │ ";
+            cout << setw(20) << left << ranking_jugadores_copia[i] << " │   ";
+            cout << setw(36) << left << ranking_puntajes_copia[i];
+            cout << "║" << endl;
+        }
+    }
+
+    cout << "   ╚════════════════════════════════════════════════════════════════════════╝" << endl;
+    cout << endl;
+    enter();
+}
+

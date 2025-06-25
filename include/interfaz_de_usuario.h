@@ -47,7 +47,7 @@ void limpiar_pantalla();
 
 void mensaje_objetivo_no_cumplido_mas_stock_max( int cant_dados_stock[], int jugador,  int ronda, string nombre_jugador[], int suma);
 
-void mostrar_ranking(string ranking_jugadores[], int ranking_puntajes[], int longitud_ranking);
+void mostrar_ranking(string ranking_jugadores[], int ranking_puntajes[], int longitud_ranking,  bool se_jugo);
 
 void credito();
 

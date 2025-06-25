@@ -248,12 +248,11 @@ void mostrar_dados_horizontal(int dados_stock[], int cant_dados_stock, bool most
 
 
 void mensaje_gano_la_partida(int puntaje, int suma) {
-    int ancho = 63;
     cout << "      ╔═════════════════════════════════════════════════════════╗"<<endl;
     cout << "      ║            FELICIDADES! HAS GANADO LA PARTIDA           ║"<<endl;
     cout << "   ╔══╝═════════════════════════════════════════════════════════╚═╗"<<endl;
-    cout << "   ║" << centrar("PUNTAJE OBTENIDO FUE DE: "+to_string(puntaje)+ " PTS", ancho) << "║"<<endl;
-    cout << "   ║" << centrar("LA SUMA DE LOS DADOS FUE: " + to_string(suma), ancho) << "║"<<endl;
+    cout << "   ║" << centrar("PUNTAJE OBTENIDO FUE DE: "+to_string(puntaje)+ " PTS", 62) << "║"<<endl;
+    cout << "   ║" << centrar("LA SUMA DE LOS DADOS FUE: " + to_string(suma), 62) << "║"<<endl;
     cout << "   ╠══════════════════════════════════════════════════════════════╝"<<endl;
     cout << "   ║ ENTER PARA CONTINUAR...║"<<endl;
     cout << "   ╚════════════════════════╝";enter();
@@ -295,7 +294,6 @@ void mensaje_objetivo_no_cumplido( int cant_dados_stock[], int jugador,  int ron
     cout << "   ╠══════════════════════════════════════════════════════════════════════════╝"<<endl;
     cout << "   ║ ENTER PARA CONTINUAR...║"<<endl;
     cout << "   ╚════════════════════════╝";enter();
-    cout <<endl;
 }
 
 
@@ -313,7 +311,6 @@ void mensaje_objetivo_no_cumplido_mas_stock_max( int cant_dados_stock[], int jug
     cout << "   ╠══════════════════════════════════════════════════════════════════════════╝"<<endl;
     cout << "   ║ ENTER PARA CONTINUAR...║"<<endl;
     cout << "   ╚════════════════════════╝";enter();
-    cout <<endl;
 }
 
 
@@ -326,8 +323,8 @@ void credito() {
     ║  JUEGO CREADO POR: ANGEL SIMON                                           ║
     ║  LEVEMENTE INSPIRADO EN EL JUEGO: "MAFIA"                                ║
     ╠══════════════════════════════════════════════════════════════════════════╣
-    ║  RECURSOS UTILIZADOS: ▪ ICONOS DE FREEPIK                                ║
-    ║                       ▪ LOGOTIPO DISEÑADO EN LOGO MAKER                  ║
+    ║  RECURSOS UTILIZADOS: ▪ ICONOS DE FREEPIK.                               ║
+    ║                       ▪ LOGOTIPO DISEÑADO EN LOGO MAKER.                 ║
     ╠══════════════════════════════════════════════════════════════════════════╣
     ║           EQUIPO DE DESARROLLO - "LOS DEL CODIGO SIN GARANTIAS"          ║
     ╠══════════════════════════════════════════════════════════════════════════╣
@@ -339,27 +336,33 @@ void credito() {
 
 }
 
-void mostrar_ranking(string ranking_jugadores[], int ranking_puntajes[], int longitud_ranking) {
+void mostrar_ranking(string ranking_jugadores[], int ranking_puntajes[], int longitud_ranking, bool se_jugo) {
 
-    cout << "   ╔═════════════════════════════════════════════════════════════════════╗" << endl;
-    cout << "   ║" << centrar("🏆 RANKING DE JUGADORES 🏆", 73) << "║" << endl;
-    cout << "   ╠═════════════════════════════════════════════════════════════════════╣" << endl;
-    cout << "   ║  Pos │        Nombre        │   Puntaje                             ║" << endl;
-    cout << "   ╠══════╬══════════════════════╬═══════════════════════════════════════╣" << endl;
+    if (se_jugo) {
+        cout << "   ╔═════════════════════════════════════════════════════════════════════╗"<<endl;
+        cout << "   ║" << centrar("RANKING DE LOS MEJORES JUGADORES",69) << "║" << endl;
+        cout << "   ╠═════════════════════════════════════════════════════════════════════╣" << endl;
+        cout << "   ║  POS  ║            NOMBRE           ║           PUNTAJES            ║" << endl;
+        cout << "   ╠═══════╬═════════════════════════════╬═══════════════════════════════╣" << endl;
 
-    for (int i = 0; i < longitud_ranking; i++) {
-        if (ranking_jugadores[i] != "") {
-            cout << "   ║  ";
-            if (i + 1 < 10) cout << " "; 
-            cout << i + 1 << "  │ ";
-            cout << setw(20) << left << ranking_jugadores[i] << " │   ";
-            cout << setw(36) << left << ranking_puntajes[i];
-            cout << "║" << endl;
+        for (int i = 0; i < longitud_ranking; i++) {
+            if (ranking_jugadores[i] != "") {
+                cout << "   ║" << centrar(to_string(i + 1 ), 7) << "║";
+                cout << centrar(ranking_jugadores[i], 29) << "║";
+                cout << centrar(to_string(ranking_puntajes[i]), 31) << "║"<< endl;
+            }
         }
-    }
 
-    cout << "   ╚═════════════════════════════════════════════════════════════════════╝" << endl;
-    cout << endl;
-    enter();
+        cout << "   ╚═════════════════════════════════════════════════════════════════════╝" << endl;
+        cout << "   ║ ENTER PARA VOLVER AL MENU PRINCIPAL...║"<<endl;
+        cout << "   ╚═══════════════════════════════════════╝";enter();
+    }
+    else {
+        cout << "   ╔══════════════════════════════════════════════════════════════════════════╗"<<endl;
+        cout << "   ║ LO SIENTO, NO SE PUEDE VER ESTADISTICA SIN AL MENOS JUGAR UNA PARTIDA.   ║"<<endl;
+        cout << "   ╠══════════════════════════════════════════════════════════════════════════╝"<<endl;
+        cout << "   ║ ENTER PARA VOLVER AL MENU PRINCIPAL...║"<<endl;
+        cout << "   ╚═══════════════════════════════════════╝";enter();
+    }
 }
 

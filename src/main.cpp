@@ -153,7 +153,9 @@ int main() {
 
     portada();
 
-    int opcion; 
+    int opcion;
+
+    bool se_jugo = false;
 
     do
     {
@@ -165,9 +167,10 @@ int main() {
         switch (opcion) {
             case 1:                
                 jugar(CANTIDAD_JUGADORES, CANT_RONDA, CANT_DADOS_OBJETIVO, CANT_DADOS_STOCK_INICIAL, CANT_CARAS_DADO_STOCK, CANT_CARAS_DADO_OBJETIVO, ranking_jugadores, ranking_puntajes, LONGITUD_RANKING);
+                se_jugo=true;
                 break;
             case 2:
-                mostrar_ranking(ranking_jugadores, ranking_puntajes, LONGITUD_RANKING);
+                mostrar_ranking(ranking_jugadores, ranking_puntajes, LONGITUD_RANKING, se_jugo);
                 enter();
                 break;
             case 3:

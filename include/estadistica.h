@@ -7,11 +7,12 @@ using namespace std;
 
 void guardar_puntaje_por_ronda(int jugador, int ronda, int puntaje, int puntajes[]);
 
-void anunciar_ganador_o_empate(int puntaje_acumulado_por_jugadores[], string nombres_jugadores[]);
+void anunciar_ganador_o_empate(int resultado_final, string nombres_jugadores[]);
 
 void mostrar_resumen(int puntajes_por_rondas_jugadores[], string nombres_jugadores[], int ronda, int puntaje_acumulado_por_jugadores[]);
 
-void guardar_ganador(string nombres_jugadores[], int puntaje_acumulado_por_jugadores[],string ranking_jugadores[], int ranking_puntajes[]);
+void guardar_resultado(string nombres_jugadores[], int puntaje_acumulado_por_jugadores[],int resultado_final, string ranking_jugadores[], int ranking_puntajes[], int longitud_ranking);
 
-void agregar_ganador(string ranking_jugadores[], int ranking_puntajes[], string nombre_jugador, int puntaje);
+int obtener_resultado_final(int puntaje_jugadores[]);
+
 #endif

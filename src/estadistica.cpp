@@ -9,17 +9,11 @@ void guardar_puntaje_por_ronda(int num_jugadores, int ronda, int puntaje, int pu
 }
 
 
-void anunciar_ganador_o_empate(int puntaje_acumulado_por_jugadores[], string nombres_jugadores[]) {
+void anunciar_ganador_o_empate(int resultado_final, string nombres_jugadores[]) {
 
-    if (puntaje_acumulado_por_jugadores[0] != puntaje_acumulado_por_jugadores[1]) {
-        int indice_ganador;
-        if (puntaje_acumulado_por_jugadores[0] > puntaje_acumulado_por_jugadores[1]) {
-            indice_ganador = 0;
-        } else {
-            indice_ganador = 1;
-        }
+    if (resultado_final != -1) {
         cout << "   ╔════════════════════════════════════════════════════════════════════════╗" << endl;
-        cout << "   ║" << centrar("¡FELICIDADES " + nombres_jugadores[indice_ganador] + ", GANASTE!", 73) << "║" << endl;
+        cout << "   ║" << centrar("¡FELICIDADES " + nombres_jugadores[resultado_final] + ", GANASTE!", 73) << "║" << endl;
         cout << "   ╠════════════════════════════════════════════════════════════════════════╝" << endl;
         cout << "   ║ ENTER PARA VER EL RESUMEN DE LA PARTIDA  ║" << endl;
         cout << "   ╚══════════════════════════════════════════╝";enter();
@@ -60,18 +54,35 @@ void mostrar_resumen(int puntajes_por_rondas_jugadores[], string nombres_jugador
     }
 }
 
-void guardar_ganador(string nombres_jugadores[], int puntaje_acumulado_por_jugadores[], string ranking_jugadores[], int ranking_puntajes[]){
-    if (puntaje_acumulado_por_jugadores[0] > puntaje_acumulado_por_jugadores[1])
-        agregar_ganador(ranking_jugadores, ranking_puntajes, nombres_jugadores[0], puntaje_acumulado_por_jugadores[0]);
-    else if (puntaje_acumulado_por_jugadores[1] > puntaje_acumulado_por_jugadores[0])
-        agregar_ganador(ranking_jugadores, ranking_puntajes, nombres_jugadores[1], puntaje_acumulado_por_jugadores[1]);
+void agregar_ganador(string ranking_jugadores[], int ranking_puntajes[], string nombre_jugador, int puntaje, int longitud_ranking) {
+    int i = 0;
+    while (i < longitud_ranking && ranking_puntajes[i] > puntaje) {
+        i++;
+    }
+    int j = longitud_ranking - 1;
+    for (j; j > i; j--) {
+        ranking_puntajes[j] = ranking_puntajes[j - 1];
+        ranking_jugadores[j] = ranking_jugadores[j - 1];
+    }
+    ranking_puntajes[i] = puntaje;
+    ranking_jugadores[i] = nombre_jugador;
+}
+
+void guardar_resultado(string nombres_jugadores[], int puntaje_acumulado_por_jugadores[],int resultado_final, string ranking_jugadores[], int ranking_puntajes[], int longitud_ranking){
+    if (resultado_final == 0)
+        agregar_ganador(ranking_jugadores, ranking_puntajes, nombres_jugadores[0], puntaje_acumulado_por_jugadores[0], longitud_ranking);
+    else if (resultado_final == 1)
+        agregar_ganador(ranking_jugadores, ranking_puntajes, nombres_jugadores[1], puntaje_acumulado_por_jugadores[1], longitud_ranking);
     else{
-        agregar_ganador(ranking_jugadores, ranking_puntajes, nombres_jugadores[0], puntaje_acumulado_por_jugadores[0]);
-        agregar_ganador(ranking_jugadores, ranking_puntajes, nombres_jugadores[1], puntaje_acumulado_por_jugadores[1]);
+        agregar_ganador(ranking_jugadores, ranking_puntajes, nombres_jugadores[0], puntaje_acumulado_por_jugadores[0], longitud_ranking);
+        agregar_ganador(ranking_jugadores, ranking_puntajes, nombres_jugadores[1], puntaje_acumulado_por_jugadores[1], longitud_ranking);
     }    
 }
 
-void agregar_ganador(string ranking_jugadores[], int ranking_puntajes[], string nombre_jugador, int puntaje) {
-    //al agregar un ganador, si el ranking esta lleno, se elimina el ultimo jugador y se agrega el nuevo.
-    // hay que agregar ordenado por mayor puntaje.
+int obtener_resultado_final(int puntaje_acumulado_por_jugadores[]) {
+    if (puntaje_acumulado_por_jugadores[0] > puntaje_acumulado_por_jugadores[1])
+        return 0;
+    else if (puntaje_acumulado_por_jugadores[1] > puntaje_acumulado_por_jugadores[0])
+        return 1;
+    return -1;
 }

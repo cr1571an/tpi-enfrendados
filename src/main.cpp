@@ -8,7 +8,7 @@
 #include "estadistica.h"
 using namespace std;
 
-void jugar(int cantidad_jugadores, int cant_ronda, int cant_dados_objetivo, int cant_dados_stock_inicial, int cant_caras_dado_stock, int cant_caras_dado_objetivo) {
+void jugar(int cantidad_jugadores, int cant_ronda, int cant_dados_objetivo, int cant_dados_stock_inicial, int cant_caras_dado_stock, int cant_caras_dado_objetivo, string ranking_jugadores[], int ranking_puntajes[]) {
     cin.ignore();
 
         string nombres_jugadores[cantidad_jugadores];
@@ -91,7 +91,7 @@ void jugar(int cantidad_jugadores, int cant_ronda, int cant_dados_objetivo, int 
 
                     mensaje_gano_la_partida(puntaje,dado_stock_jugadores[jugador]);
 
-                    guardar_puntaje_por_ronda(jugador, ronda, puntaje, puntajes_por_rondas_jugadores, nombres_jugadores);
+                    guardar_puntaje_por_ronda(jugador, ronda, puntaje, puntajes_por_rondas_jugadores);
 
                     seguir_jugando = false;
                     break;
@@ -105,24 +105,30 @@ void jugar(int cantidad_jugadores, int cant_ronda, int cant_dados_objetivo, int 
 
                     puntaje_acumulado_por_jugadores[jugador]+= puntaje;
 
-                    guardar_puntaje_por_ronda(jugador, ronda, puntaje, puntajes_por_rondas_jugadores, nombres_jugadores);
+                    guardar_puntaje_por_ronda(jugador, ronda, puntaje, puntajes_por_rondas_jugadores);
                 }
                 else {
 
                     penalizar_jugador(jugador, cant_dados_stock, ronda, nombres_jugadores, suma_dados_seleccionados);
 
-                    guardar_puntaje_por_ronda(jugador, ronda, 0, puntajes_por_rondas_jugadores, nombres_jugadores);
+                    guardar_puntaje_por_ronda(jugador, ronda, 0, puntajes_por_rondas_jugadores);
                 }
             }
             if (!seguir_jugando){
                 break;
             }
         }
-        mostrar_estadistica(puntajes_por_rondas_jugadores, nombres_jugadores, cant_ronda, puntaje_acumulado_por_jugadores);
+
+        //mostrar resumen de la partida es una responsabilidad de la interfaz de usuario.
+        mostrar_resumen_partida(puntajes_por_rondas_jugadores, nombres_jugadores, cant_ronda, puntaje_acumulado_por_jugadores);
+        guardar_ganador(nombres_jugadores, puntaje_acumulado_por_jugadores, ranking_jugadores, ranking_puntajes);
+        //aca me quedo con el ganador, solo necesito el nombre y el puntaje, y lo guardo en el ranking
+        // guardo hasta 5 jugadores en el ranking, si hay empate guardo a los dos.
+        
 
 }
 
-void estadisticas(){
+void estadisticas(string jugadores[], int puntajes[]) {
     cout << "\n>>> Estadísticas del juego no implementadas aún.\n";
     cout << "Preciona enter para volver al menu principal.\n";
     enter();
@@ -148,6 +154,9 @@ int main() {
 
     const int CANT_RONDA = 3;
 
+    string jugadores [10] = {};
+    int puntajes [10] = {};
+
     portada();
 
     int opcion; 
@@ -161,10 +170,10 @@ int main() {
 
         switch (opcion) {
             case 1:                
-                jugar(CANTIDAD_JUGADORES, CANT_RONDA, CANT_DADOS_OBJETIVO, CANT_DADOS_STOCK_INICIAL, CANT_CARAS_DADO_STOCK, CANT_CARAS_DADO_OBJETIVO);
+                jugar(CANTIDAD_JUGADORES, CANT_RONDA, CANT_DADOS_OBJETIVO, CANT_DADOS_STOCK_INICIAL, CANT_CARAS_DADO_STOCK, CANT_CARAS_DADO_OBJETIVO, jugadores, puntajes);
                 break;
             case 2:
-                estadisticas();
+                estadisticas(jugadores, puntajes);
                 break;
             case 3:
                 creditos();

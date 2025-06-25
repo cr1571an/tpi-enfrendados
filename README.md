@@ -38,6 +38,21 @@ Antes de comenzar las rondas, se realiza una tirada inicial para determinar qui�
 - Cuando se completan **3 rondas**.
 - O si un jugador se queda sin dados stock (victoria automática).
 
+### 📊 Estadísticas
+
+La opción **Estadísticas** permite visualizar al jugador con el mayor puntaje obtenido durante las partidas jugadas. Se mostrará su nombre junto al puntaje correspondiente, brindando un resumen del mejor rendimiento registrado.
+
+
+### 👥 Créditos
+
+La opción **Créditos** muestra la información de los integrantes del equipo desarrollador, incluyendo:
+
+- Apellido y nombre  
+- Legajo de cada integrante
+
+También se incluye el **nombre del equipo** que llevó a cabo el desarrollo del juego.
+
+
 ## 🔧 Tecnologías
 
 - Lenguaje: **C++**

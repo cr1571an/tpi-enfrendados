@@ -3,27 +3,12 @@
 #include "interfaz_de_usuario.h"
 using namespace std;
 
-void guardar_puntaje_por_ronda(int num_jugadores, int ronda, int puntaje, int puntajes_por_rondas_jugadores[], string nombres_jugadores[]) {
+void guardar_puntaje_por_ronda(int num_jugadores, int ronda, int puntaje, int puntajes_por_rondas_jugadores[]) {
     int indice = (ronda - 1) * 2 + num_jugadores;
     puntajes_por_rondas_jugadores[indice] = puntaje;
 }
 
-
-void mostrar_estadistica( int puntajes_por_rondas_jugadores[], string nombres_jugadores[],int num_jugadores, int num_rondas) {
-    for (int jugador = 0; jugador < num_jugadores; ++jugador) {
-        int total = 0;
-        cout << " Resultados de " << nombres_jugadores[jugador] << endl;
-        for (int ronda = 1; ronda <= num_rondas; ++ronda) {
-            int indice = (ronda - 1) * num_jugadores + jugador;
-            int puntos = puntajes_por_rondas_jugadores[indice];
-            total += puntos;
-            cout << "  Ronda " << ronda << ": " << puntos << " puntos"<<endl;
-        }
-        cout << "  Total acumulado: " << total << " puntos"<<endl<<endl;
-    }
-}
-
-void mostrar_estadistica(int puntajes_por_rondas_jugadores[], string nombres_jugadores[], int ronda, int puntaje_acumulado_por_jugadores[]) {
+void mostrar_resumen_partida(int puntajes_por_rondas_jugadores[], string nombres_jugadores[], int ronda, int puntaje_acumulado_por_jugadores[]) {
     int ancho = 56;
     cout << "   ╔════════════════════════════════════════════════════════╗" << endl;
     cout << "   ║" << centrar("ESTADISTICA DE LA PARTIDA!", ancho) << "║" << endl;
@@ -44,4 +29,20 @@ void mostrar_estadistica(int puntajes_por_rondas_jugadores[], string nombres_jug
         cout << "   ╚════════════════════════════════════════════════════════╝" << endl;
         enter();
     }
+}
+
+void guardar_ganador(string nombres_jugadores[], int puntaje_acumulado_por_jugadores[], string ranking_jugadores[], int ranking_puntajes[]){
+    if (puntaje_acumulado_por_jugadores[0] > puntaje_acumulado_por_jugadores[1])
+        agregar_ganador(ranking_jugadores, ranking_puntajes, nombres_jugadores[0], puntaje_acumulado_por_jugadores[0]);
+    else if (puntaje_acumulado_por_jugadores[1] > puntaje_acumulado_por_jugadores[0])
+        agregar_ganador(ranking_jugadores, ranking_puntajes, nombres_jugadores[1], puntaje_acumulado_por_jugadores[1]);
+    else{
+        agregar_ganador(ranking_jugadores, ranking_puntajes, nombres_jugadores[0], puntaje_acumulado_por_jugadores[0]);
+        agregar_ganador(ranking_jugadores, ranking_puntajes, nombres_jugadores[1], puntaje_acumulado_por_jugadores[1]);
+    }    
+}
+
+void agregar_ganador(string ranking_jugadores[], int ranking_puntajes[], string nombre_jugador, int puntaje) {
+    //al agregar un ganador, si el ranking esta lleno, se elimina el ultimo jugador y se agrega el nuevo.
+    // hay que agregar ordenado por mayor puntaje.
 }
